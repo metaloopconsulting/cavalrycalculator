@@ -53,20 +53,20 @@ h2 {
 form {
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
 
 form div {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
   margin-bottom: 15px;
 }
 
-label {
-  font-weight: 600;
-  display: block;
-  margin-bottom: 5px;
-}
-
+/* Ensure input fields and select dropdown align properly */
 input, select {
-  width: 100%;
+  width: 60%;
   padding: 12px;
   font-size: var(--p-size);
   border: 1px solid var(--input-border-color);
@@ -75,13 +75,20 @@ input, select {
   transition: all 0.2s ease-in-out;
 }
 
-input:focus, select:focus {
-  outline: none;
-  border-color: var(--primary-color);
-  box-shadow: 0px 4px 10px rgba(0, 119, 182, 0.2);
+select {
+  appearance: none;
+  background-color: white;
 }
 
+/* Keep form labels aligned */
+label {
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+/* Fix button alignment */
 button {
+  width: 60%;
   background-color: var(--primary-color);
   color: white;
   border: none;
@@ -103,11 +110,12 @@ button:active {
   transform: scale(1);
 }
 
+/* Fix checkbox alignment */
 input[type="checkbox"] {
-  width: auto;  /* Ensures checkboxes don't stretch */
-  height: 18px; /* Sets a consistent height */
-  margin-right: 10px; /* Adds spacing between the checkbox and label */
-  vertical-align: middle; /* Aligns checkbox properly */
+  width: auto;
+  height: 18px;
+  margin-right: 10px;
+  vertical-align: middle;
 }
 
 /* Wrap checkboxes inside a flex container for better alignment */
@@ -116,7 +124,6 @@ input[type="checkbox"] {
   align-items: center;
   gap: 8px;
 }
-
 
 /* Quote Output Styling */
 #quoteOutput {
