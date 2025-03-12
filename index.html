@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Concrete Quote Tool</title>
+  <!-- Link your CSS file -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Get Your Concrete Quote</h1>
+    <!-- The form collects the quote details -->
+    <form id="quoteForm">
+      <!-- Dropdown for project type -->
+      <div>
+        <label for="projectType">Project Type:</label>
+        <select id="projectType" name="projectType">
+          <option value="">-- Select a project --</option>
+          <option value="walkway">Walkway</option>
+          <option value="patio">Patio</option>
+          <option value="trash_can_pad">Trash Can Pad</option>
+          <!-- Add more options as needed -->
+        </select>
+      </div>
+
+      <!-- Input for Length -->
+      <div>
+        <label for="length">Length (ft):</label>
+        <input type="number" id="length" name="length" required>
+      </div>
+
+      <!-- Input for Width -->
+      <div>
+        <label for="width">Width (ft):</label>
+        <input type="number" id="width" name="width" required>
+      </div>
+
+      <!-- Checkbox for Irrigation Rerouting -->
+      <div>
+        <label>
+          <input type="checkbox" id="irrigation" name="irrigation">
+          Irrigation Rerouting Required
+        </label>
+      </div>
+
+      <!-- Checkbox for Sloped Surface -->
+      <div>
+        <label>
+          <input type="checkbox" id="sloped" name="sloped">
+          Sloped Surface
+        </label>
+      </div>
+
+      <!-- Results -->
+      <div id="quoteOutput" style="margin-top:20px; font-size: 1.2em; font-weight: bold;"></div>
+
+
+      <!-- Submit Button -->
+      <div>
+        <button type="submit">Get Quote</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Link your JavaScript file -->
+  <script src="script.js"></script>
+</body>
+</html>
