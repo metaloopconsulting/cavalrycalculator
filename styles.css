@@ -103,6 +103,21 @@ button:active {
   transform: scale(1);
 }
 
+input[type="checkbox"] {
+  width: auto;  /* Ensures checkboxes don't stretch */
+  height: 18px; /* Sets a consistent height */
+  margin-right: 10px; /* Adds spacing between the checkbox and label */
+  vertical-align: middle; /* Aligns checkbox properly */
+}
+
+/* Wrap checkboxes inside a flex container for better alignment */
+.checkbox-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+
 /* Quote Output Styling */
 #quoteOutput {
   background-color: var(--secondary-color);
