@@ -110,20 +110,20 @@ button:active {
   transform: scale(1);
 }
 
-/* Fix checkbox alignment */
-input[type="checkbox"] {
-  width: auto;
-  height: 18px;
-  margin-right: 10px;
-  vertical-align: middle;
-}
-
-/* Wrap checkboxes inside a flex container for better alignment */
+/* Properly align checkboxes with labels */
 .checkbox-container {
   display: flex;
-  align-items: left;
-  gap: 8px;
+  align-items: center; /* Ensures checkbox and label are vertically aligned */
+  gap: 10px; /* Adds spacing between checkbox and text */
 }
+
+/* Fix checkbox sizing */
+input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  margin: 0; /* Removes unwanted extra spacing */
+}
+
 
 /* Quote Output Styling */
 #quoteOutput {
