@@ -113,8 +113,10 @@ button:active {
 /* Properly align checkboxes with labels */
 .checkbox-container {
   display: flex;
-  align-items: center; /* Ensures checkbox and label are vertically aligned */
+  align-items: center; /* Ensures checkbox and label are on the same line */
   gap: 10px; /* Adds spacing between checkbox and text */
+  justify-content: flex-start; /* Aligns everything to the left */
+  width: 60%; /* Matches the width of other inputs */
 }
 
 /* Fix checkbox sizing */
