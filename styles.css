@@ -121,7 +121,7 @@ input[type="checkbox"] {
 /* Wrap checkboxes inside a flex container for better alignment */
 .checkbox-container {
   display: flex;
-  align-items: center;
+  align-items: left;
   gap: 8px;
 }
 
