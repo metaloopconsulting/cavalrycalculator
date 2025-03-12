@@ -131,7 +131,7 @@ input[type="checkbox"] {
   padding: 15px;
   border-radius: 8px;
   margin-top: 20px;
-  font-size: var(--h2-size);
+  font-size: var(--p-size);
   font-weight: 600;
   color: var(--primary-color);
   text-align: center;
