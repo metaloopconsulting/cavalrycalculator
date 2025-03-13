@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <meta charset="UTF-8">
   <title>Concrete Quote Tool</title>
   <!-- Link your CSS file -->
   <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
   <div class="container">
     <h1>Get Your Concrete Quote</h1>
@@ -14,7 +16,7 @@
       <!-- Dropdown for project type -->
       <div>
         <label for="projectType">Project Type:</label>
-        <select id="projectType" name="projectType">
+        <select id="projectType" name="projectType" required>
           <option value="">-- Select a project --</option>
           <option value="walkway">Walkway</option>
           <option value="patio">Patio</option>
@@ -26,39 +28,79 @@
       <!-- Input for Length -->
       <div>
         <label for="length">Length (ft):</label>
-        <input type="number" id="length" name="length" required>
+        <input type="number" id="length" name="length" value="10" min="10" required>
       </div>
 
       <!-- Input for Width -->
       <div>
         <label for="width">Width (ft):</label>
-        <input type="number" id="width" name="width" required>
+        <input type="number" id="width" name="width" value="10" min="10" required>
       </div>
 
       <!-- Checkbox for Irrigation Rerouting -->
       <div class="checkbox-container">
         <input type="checkbox" id="irrigation" name="irrigation">
-        <label for="irrigation">Irrigation Rerouting Required</label>
+        <label for="irrigation" style="display: inline;">Irrigation Rerouting Required</label>
       </div>
 
       <!-- Checkbox for Sloped Surface -->
       <div class="checkbox-container">
         <input type="checkbox" id="sloped" name="sloped">
-        <label for="sloped">Sloped Surface</label>
+        <label for="sloped" style="display: inline;">Sloped Surface</label>
       </div>
 
-      <!-- Results -->
-      <div id="quoteOutput"></div>
+      <!-- Hidden Radio Buttons for Different Types of Slope -->
+      <div id="slopeDiv" class="radio-container">
+        <label for="slopeDiv">How sloped is the surface?</label>
+        <div> </div>
+        <div>
+          <label>
+            <input type="radio" id="radio1" name="slopeType" value="1">
+            Only slightly
+          </label>
+        </div>
+        <div>
+          <label>
+            <input type="radio" id="radio1" name="slopeType" value="2">
+            Fairly sloped
+          </label>
+        </div>
+        <div>
+          <label>
+            <input type="radio" id="radio1" name="slopeType" value="3">
+            Like a small cliff
+          </label>
+        </div>
+
+      </div>
+
+
+
 
 
       <!-- Submit Button -->
       <div>
         <button type="submit">Get Quote</button>
       </div>
-    </form>
+
+
+      <!-- Results -->
+      <div id="quoteOutput"></div>
+
+
+
   </div>
+
+
+
+  </div>
+
+
+
+  </form>
 
   <!-- Link your JavaScript file -->
   <script src="script.js"></script>
 </body>
+
 </html>

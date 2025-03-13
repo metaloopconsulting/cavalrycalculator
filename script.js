@@ -27,6 +27,12 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 });
 
+//Listener for the Sloped Surface checkbox
+document.getElementById("sloped").addEventListener("click", showSlope);
+
+//Listener for the successful submit of the form
+document.getElementById("quoteForm").addEventListener("submit", showQuote);
+
 function getPricePerSqFt(area) {
   const minArea = 100;
   const maxArea = 400;
@@ -58,4 +64,26 @@ function calculateQuote(projectType, area, irrigation, sloped) {
   
 
   return customerCost;
+}
+
+//Handles if the sloped surface checkbox is checked, and if so displays three more checkboxes
+function showSlope() {
+  var checkBox = document.getElementById("sloped");
+  var slopeDiv = document.getElementById("slopeDiv");
+  if (checkBox.checked == true){
+    slopeDiv.style.display = "inline";
+  } else {
+    slopeDiv.style.display = "none";
+  }
+
+  //makes radio 1 required if sloped is checked
+  var radio1 = document.getElementById("radio1");
+  radio1.required = checkBox.checked;
+ 
+}
+
+//Handles showing the output of the quote
+function showQuote() {
+  var quoteOutput = document.getElementById("quoteOutput");
+  quoteOutput.style.display = "block";
 }

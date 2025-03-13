@@ -2,7 +2,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap');
 
 :root {
-  --base-font-size: 20px;
+  --base-font-size: 18px;
   --font-scale-major-third: 1.25;
   
   --h1-size: calc(var(--base-font-size) * var(--font-scale-major-third) * var(--font-scale-major-third));
@@ -64,8 +64,9 @@ form div {
   margin-bottom: 15px;
 }
 
+
 /* Ensure input fields and select dropdown align properly */
-input, select {
+input[type="text"], input[type="number"], select {
   width: 60%;
   padding: 12px;
   font-size: var(--p-size);
@@ -84,6 +85,7 @@ select {
 label {
   font-weight: 600;
   margin-bottom: 5px;
+  display: inline; /* Ensures labels are displayed inline */
 }
 
 /* Fix button alignment */
@@ -112,30 +114,46 @@ button:active {
 
 /* Properly align checkboxes with labels */
 .checkbox-container {
-  display: flex;
-  align-items: center; /* Ensures checkbox and label are on the same line */
-  gap: 10px; /* Adds spacing between checkbox and text */
-  justify-content: flex-start; /* Aligns everything to the left */
-  width: 60%; /* Matches the width of other inputs */
+  display: inline; /* Ensures checkbox and label are on the same line */
+  gap: 20px; /* Adds spacing between checkbox and text */
+  justify-content: left; /* Aligns everything to the left */
+  width: 100%; /* Ensures full width for alignment */
+  margin-bottom: 15px; /* Adds space between each checkbox */
+  margin: 10px 0; /* Adds space above and below the container */
 }
 
 /* Fix checkbox sizing */
 input[type="checkbox"] {
   width: 18px;
   height: 18px;
-  margin: 0; /* Removes unwanted extra spacing */
+  margin-right: 10px; /* Adds space between checkbox and text */
 }
 
+.radio-container {
+  display: none; /* Ensures radio button and label are on the same line */
+  gap: 20px; /* Adds spacing between radio button and text */
+  justify-content: left; /* Aligns everything to the left */
+  width: 100%; /* Ensures full width for alignment */
+  margin: 10px 0; /* Adds space above and below the container */
+}
+
+input[type="radio"] {
+  display: inline-flex;
+  align-items: right;
+  justify-content: right;
+  
+}
 
 /* Quote Output Styling */
 #quoteOutput {
+  display: none;
   background-color: var(--secondary-color);
-  padding: 15px;
+  padding: 5px;
   border-radius: 8px;
   margin-top: 20px;
   font-size: var(--p-size);
   font-weight: 600;
   color: var(--primary-color);
-  text-align: center;
+  text-align: left;
   box-shadow: 2px 2px 10px var(--shadow-color);
 }
