@@ -9,12 +9,23 @@ document.addEventListener('DOMContentLoaded', function () {
     const width = parseFloat(document.getElementById('width').value);
     const irrigation = document.getElementById('irrigation').checked;
     const sloped = document.getElementById('sloped').checked;
+
+    //calculates the slope cost based on the value of the radio button
+    const slopeType = document.querySelector('input[name="slopeType"]:checked').value;
+    let slopeCost = 0;
+    if (slopeType === "1") {
+      slopeCost = 75;
+    } else if (slopeType === "2") {
+      slopeCost = 150;
+    } else if (slopeType === "3") {
+      slopeCost = 225;
+    }
     
     const area = length * width;
     const pricePerSqFt = getPricePerSqFt(area);
     const irrigationCost = irrigation ? 50 : 0;
-    const slopeCost = sloped ? 75 : 0;
-    const quote = calculateQuote(projectType, area, irrigation, sloped);
+    const slopePrice = sloped ? slopeCost : 0;
+    const quote = calculateQuote(projectType, area, irrigation, slopePrice);
     const customerPricePerSqFt = quote / area;
 
     document.getElementById('quoteOutput').innerHTML = `
@@ -22,7 +33,7 @@ document.addEventListener('DOMContentLoaded', function () {
       <p><strong>Price Per Sq Ft:</strong> ${customerPricePerSqFt.toFixed(2)}</p>
       <p><strong>Total Sq Ft:</strong> ${area.toFixed(2)} sq ft</p>
       <p><strong>Price for Irrigation:</strong> ${irrigationCost.toFixed(2)}</p>
-      <p><strong>Price for Slope Adjustment:</strong> ${slopeCost.toFixed(2)}</p>
+      <p><strong>Price for Slope Adjustment:</strong> ${slopePrice.toFixed(2)}</p>
     `;
   });
 });
@@ -47,7 +58,7 @@ function getPricePerSqFt(area) {
   return pricePerSqFt;
 }
 
-function calculateQuote(projectType, area, irrigation, sloped) {
+function calculateQuote(projectType, area, irrigation, slopePrice) {
   let basePricePerSqFt = getPricePerSqFt(area);
   
   let projectMultiplier = 1.0;
@@ -57,7 +68,7 @@ function calculateQuote(projectType, area, irrigation, sloped) {
   let baseCost = basePricePerSqFt * area * projectMultiplier;
 
   if (irrigation) baseCost += 75;
-  if (sloped) baseCost += 100;
+  baseCost += slopePrice;
 
   const margin = 0.20;
   const customerCost = baseCost * (1 + margin);
