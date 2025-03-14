@@ -27,14 +27,14 @@
 
       <!-- Input for Length -->
       <div>
-        <label for="length">Length (ft):</label>
-        <input type="number" id="length" name="length" value="10" min="10" required>
+        <label for="length">Length (ft): <span id="lengthDisplay">10</span></label>
+        <input type="range" id="lengthValue" name="length" value="10" min="10" max="60" required oninput="document.getElementById('lengthDisplay').innerText = this.value">
       </div>
 
       <!-- Input for Width -->
       <div>
-        <label for="width">Width (ft):</label>
-        <input type="number" id="width" name="width" value="10" min="10" required>
+        <label for="width">Width (ft): <span id="widthDisplay">10</span></label>
+        <input type="range" id="widthValue" name="width" value="10" min="10" max="60" required oninput="document.getElementById('widthDisplay').innerText = this.value">
       </div>
 
       <!-- Checkbox for Irrigation Rerouting -->
@@ -55,19 +55,19 @@
         <div> </div>
         <div>
           <label>
-            <input type="radio" id="radio1.1" name="slopeType" value="1">
+            <input type="radio" id="radio1" name="slopeType" value="1">
             Only slightly
           </label>
         </div>
         <div>
           <label>
-            <input type="radio" id="radio1.2" name="slopeType" value="2">
+            <input type="radio" id="radio1" name="slopeType" value="2">
             Fairly sloped
           </label>
         </div>
         <div>
           <label>
-            <input type="radio" id="radio1.3" name="slopeType" value="3">
+            <input type="radio" id="radio1" name="slopeType" value="3">
             Like a small cliff
           </label>
         </div>

@@ -145,6 +145,11 @@ input[type="radio"] {
   
 }
 
+input[type="range"] {
+  width: 60%;
+  margin-top: 10px;
+}
+
 /* Quote Output Styling */
 #quoteOutput {
   display: none;

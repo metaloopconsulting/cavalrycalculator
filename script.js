@@ -1,17 +1,24 @@
 document.addEventListener('DOMContentLoaded', function () {
   const form = document.getElementById('quoteForm');
 
-  form.addEventListener('submit', function(event) {
+  form.addEventListener('submit', function (event) {
     event.preventDefault();
 
     const projectType = document.getElementById('projectType').value;
-    const length = parseFloat(document.getElementById('length').value);
-    const width = parseFloat(document.getElementById('width').value);
+    const length = document.getElementById('lengthValue').value || 10;
+    const width = document.getElementById('widthValue').value || 10;
     const irrigation = document.getElementById('irrigation').checked;
-    const sloped = document.getElementById('sloped').checked;
+    const sloped = document.getElementById('sloped').checked || false;
 
     //calculates the slope cost based on the value of the radio button
-    const slopeType = document.querySelector('input[name="slopeType"]:checked').value;
+    let slopeType = 0;
+    if (sloped === true) {
+      slopeType = document.querySelector('input[name="slopeType"]:checked').value
+    }
+    else {
+      slopeType = 0;
+    }
+
     let slopeCost = 0;
     if (slopeType === "1") {
       slopeCost = 75;
@@ -19,8 +26,10 @@ document.addEventListener('DOMContentLoaded', function () {
       slopeCost = 150;
     } else if (slopeType === "3") {
       slopeCost = 225;
+    } else {
+      slopeCost = 0;
     }
-    
+
     const area = length * width;
     const pricePerSqFt = getPricePerSqFt(area);
     const irrigationCost = irrigation ? 50 : 0;
@@ -29,11 +38,11 @@ document.addEventListener('DOMContentLoaded', function () {
     const customerPricePerSqFt = quote / area;
 
     document.getElementById('quoteOutput').innerHTML = `
-      <p><strong>Estimated Quote:</strong> ${quote.toFixed(2)}</p>
-      <p><strong>Price Per Sq Ft:</strong> ${customerPricePerSqFt.toFixed(2)}</p>
+      <p><strong>Estimated Quote:</strong> $${quote.toFixed(2)}</p>
+      <p><strong>Price Per Sq Ft:</strong> $${customerPricePerSqFt.toFixed(2)}</p>
       <p><strong>Total Sq Ft:</strong> ${area.toFixed(2)} sq ft</p>
-      <p><strong>Price for Irrigation:</strong> ${irrigationCost.toFixed(2)}</p>
-      <p><strong>Price for Slope Adjustment:</strong> ${slopePrice.toFixed(2)}</p>
+      <p><strong>Price for Irrigation:</strong> $${irrigationCost.toFixed(2)}</p>
+      <p><strong>Price for Slope Adjustment:</strong> $${slopePrice.toFixed(2)}</p>
     `;
   });
 });
@@ -60,11 +69,11 @@ function getPricePerSqFt(area) {
 
 function calculateQuote(projectType, area, irrigation, slopePrice) {
   let basePricePerSqFt = getPricePerSqFt(area);
-  
+
   let projectMultiplier = 1.0;
   if (projectType === 'patio') projectMultiplier = 1.00;
   else if (projectType === 'trash_can_pad') projectMultiplier = 1.00;
-  
+
   let baseCost = basePricePerSqFt * area * projectMultiplier;
 
   if (irrigation) baseCost += 75;
@@ -72,7 +81,7 @@ function calculateQuote(projectType, area, irrigation, slopePrice) {
 
   const margin = 0.20;
   const customerCost = baseCost * (1 + margin);
-  
+
 
   return customerCost;
 }
@@ -81,7 +90,7 @@ function calculateQuote(projectType, area, irrigation, slopePrice) {
 function showSlope() {
   var checkBox = document.getElementById("sloped");
   var slopeDiv = document.getElementById("slopeDiv");
-  if (checkBox.checked == true){
+  if (checkBox.checked == true) {
     slopeDiv.style.display = "inline";
   } else {
     slopeDiv.style.display = "none";
@@ -90,7 +99,7 @@ function showSlope() {
   //makes radio 1 required if sloped is checked
   var radio1 = document.getElementById("radio1");
   radio1.required = checkBox.checked;
- 
+
 }
 
 //Handles showing the output of the quote
