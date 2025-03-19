@@ -44,7 +44,7 @@ h2 {
 
 .quote-container {
   width: 100%;
-  max-width: 600px;
+  max-width: 900px;
   overflow: hidden;
   position: relative;
   margin: auto;
@@ -97,10 +97,10 @@ select {
 input[type="range"] {
   width: 80%;
   padding: 10px;
-  font-size: var(--p-size);
+  font-size: 30px;
   display: block;
   margin-left: 15px;
-  
+  margin-top: 10px;
 }
 
 /* Center align the button container */
