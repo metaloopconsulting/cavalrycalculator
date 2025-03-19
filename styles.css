@@ -1,8 +1,15 @@
 /* Import a clean, modern font */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap');
 
+
+@media (max-width: 768px) {
+  :root {
+    --base-font-size: clamp(20px, 3vw, 28px); /* Make text slightly larger on small screens */
+  }
+}
+
 :root {
-  --base-font-size: 24px;
+  --base-font-size: clamp(18px, 2vw, 24px);
   --font-scale-major-third: 1.25;
   
   --h1-size: calc(var(--base-font-size) * var(--font-scale-major-third) * var(--font-scale-major-third));
@@ -50,9 +57,12 @@ body {
 }
 
 
+
+
+
 /* Headings */
 h1 {
-  font-size: var(--h1-size);
+  font-size: calc(var(--h1-size) * 1rem);
   color: var(--primary-color);
   text-align: center;
   margin-bottom: 25px;
@@ -60,7 +70,7 @@ h1 {
 
 h2 {
   text-align: center;
-  font-size: var(--h2-size);
+  font-size: calc(var(--h2-size) * 1rem);
   color: #555;
   margin-bottom: 25px;
 }
@@ -104,7 +114,7 @@ h2 {
 }
 
 label {
-  font-size: (var(--p-size));
+  font-size: calc(var(--p-size) * 1rem);
   font-weight: 400;
   margin-bottom: 10px;
   margin-left: 10px;
@@ -125,14 +135,40 @@ select {
   margin-top: 10px;
 }
 
+/* General Styling for Range Slider */
 input[type="range"] {
+  -webkit-appearance: none; /* Removes default styling */
+  appearance: none;
   width: 80%;
-  padding: 10px;
-  font-size: (var(--p-size));
-  display: block;
+  height: 25px; /* Thicker track for easier control */
+  background: #ddd; /* Light background */
+  border-radius: 6px;
+  outline: none;
   margin-left: 15px;
-  margin-top: 10px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  transition: (--secondary-color) 0.3s ease-in-out;
 }
+
+/* Styling the Slider Thumb (Handle) for WebKit Browsers (Chrome, Safari) */
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 32px; /* Make it larger for mobile users */
+  height: 32px;
+  background: #0077b6; /* Blue color */
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s;
+}
+
+/* Increase Thumb Size on Active State */
+input[type="range"]::-webkit-slider-thumb:active {
+  transform: scale(1.2); /* Slightly enlarge on press */
+}
+
+
 
 /* Center align the button container */
 .button-container {

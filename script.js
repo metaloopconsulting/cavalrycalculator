@@ -44,7 +44,29 @@ document.addEventListener("DOMContentLoaded", function () {
       prevStep(step);
     }
   });
+
+  //Listener for the slider fill
+  const sliders = document.querySelectorAll('input[type="range"]');
+
+  sliders.forEach(slider => {
+    updateSliderTrack(slider); // Set initial fill
+
+    slider.addEventListener("input", function () {
+      updateSliderTrack(this);
+    });
+  });
+
+  function updateSliderTrack(slider) {
+    const min = slider.min || 0;
+    const max = slider.max || 100;
+    const value = slider.value;
+    const percentage = ((value - min) / (max - min)) * 100;
+
+    // Apply gradient background
+    slider.style.background = `linear-gradient(to right,rgb(0, 62, 95) ${percentage}%, #ddd ${percentage}%)`;
+  }
 });
+
 
 
 
