@@ -182,12 +182,34 @@ function showQuote() {
     const customerPricePerSqFt = quote / area;
 
     document.getElementById('quoteOutput').innerHTML = `
-      <p><strong>Estimated Quote:</strong> $${quote.toFixed(2)}</p>
-      <p><strong>Price Per Sq Ft:</strong> $${customerPricePerSqFt.toFixed(2)}</p>
-      <p><strong>Total Sq Ft:</strong> ${area.toFixed(2)} sq ft</p>
-      <p><strong>Price for Irrigation:</strong> $${irrigationCost.toFixed(2)}</p>
-      <p><strong>Price for Slope Adjustment:</strong> $${slopePrice.toFixed(2)}</p>
-    `;
+  <div class="invoice-container">
+    <h2>Quote Summary</h2>
+    <table class="invoice-table">
+      <tr>
+        <td><strong>Total Sq Ft:</strong></td>
+        <td>${area.toFixed(2)} sq ft</td>
+      </tr>
+      <tr>
+        <td><strong>Price Per Sq Ft:</strong></td>
+        <td>${customerPricePerSqFt.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</td>
+      </tr>
+      <tr>
+        <td><strong>Price for Irrigation:</strong></td>
+        <td>${irrigationCost.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</td>
+      </tr>
+      <tr>
+        <td><strong>Price for Slope Adjustment:</strong></td>
+        <td>${slopePrice.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</td>
+      </tr>
+    </table>
+
+    <div class="total-amount">
+      <p>Total Estimate:</p>
+      <p class="total-price">${quote.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</p>
+    </div>
+  </div>
+`;
+
 
   }
 }
