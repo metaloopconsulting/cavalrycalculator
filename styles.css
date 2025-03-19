@@ -201,6 +201,19 @@ button {
   color: white;
 }
 
+.stripe-buy-button {
+  display: flex;          /* Makes buttons appear side by side */
+  justify-content: center; /* Centers the buttons */
+  gap: 15px;             /* Adds spacing between buttons */
+  margin-top: 50px;
+  margin-bottom: 15px;      /* Adds spacing above */
+}
+
+a {
+  text-decoration: none;
+  color: white;
+}
+
 button:hover {
   transform: scale(1.05);
 }

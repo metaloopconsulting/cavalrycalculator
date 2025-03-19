@@ -1,6 +1,6 @@
 //Navigation between steps
 let currentStep = 1; // Track the current step
-let finalStep = 5; // The final step
+let finalStep = 6; // The final step
 
 function nextStep(step) {
   // Get the current step div
@@ -55,6 +55,7 @@ document.addEventListener("DOMContentLoaded", function () {
       updateSliderTrack(this);
     });
   });
+
 
   function updateSliderTrack(slider) {
     const min = slider.min || 0;
