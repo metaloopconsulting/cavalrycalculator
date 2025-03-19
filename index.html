@@ -8,129 +8,144 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 
+
+
+
+
 <body>
 
-  <div class="quote-container">
-    <form id="quoteForm">
+  <header class="header">
 
+    <img src=logo.png alt="Cavalry Logo">
 
-      <div class="quote-card active" id="step-1">
-        <h2>What kind of project are you having done?</h2>
-
-        <!-- Dropdown for Project Type -->
-        <select id="projectType" name="projectType" required>
-          <option value="">Select a project</option>
-          <option value="walkway">Walkway</option>
-          <option value="patio">Patio</option>
-          <option value="trash_can_pad">Trash Can Pad</option>
-          <!-- Add more options as needed -->
-        </select>
-        <div class="button-container">
-        <button class="next-btn" data-step="1">Next</button>
-        </div>
-      </div>
+  </header>
 
 
 
-      <div class="quote-card" id="step-2">
-        <h2>What are the dimensions of the area?</h2>
+  <div class="quote-wrapper">
 
-        <!-- Input for Length -->
-        <label for="length">Length (ft): <span id="lengthDisplay">10</span></label>
-        <input type="range" id="lengthValue" name="length" value="10" min="10" max="60" required
-          oninput="document.getElementById('lengthDisplay').innerText = this.value">
+    <div class="quote-container">
 
-        <!-- Input for Width -->
-        <div>
-          <label for="width">Width (ft): <span id="widthDisplay">10</span></label>
-          <input type="range" id="widthValue" name="width" value="10" min="10" max="60" required
-            oninput="document.getElementById('widthDisplay').innerText = this.value">
-        </div>
+      <form id="quoteForm">
 
-        <div class="button-container">
+        <div class="quote-card active" id="step-1">
+          <h2>What kind of project are you needing done?</h2>
 
-          <button class="prev-btn" data-step="2">Previous</button>
-          <button class="next-btn" data-step="2">Next</button>
-          
-
-        </div>
-
-      </div>
-
-      <div class="quote-card" id="step-3">
-        <h2>Do you require irrigation rerouting?</h2>
-
-        <!-- Checkbox for Irrigation Rerouting -->
-        <div class="checkbox-container">
-          <input type="checkbox" id="irrigation" name="irrigation">
-          <label for="irrigation" style="display: inline;">Irrigation Rerouting Required</label>
-        </div>
-
-        <div class="button-container">
-          
-          <button class="prev-btn" data-step="3">Previous</button>
-          <button class="next-btn" data-step="3">Next</button>
-
-        </div>
-      </div>
-
-      <div class="quote-card" id="step-4">
-        <h2>Do you have a sloped surface?</h2>
-        <!-- Checkbox for Sloped Surface -->
-        <div class="checkbox-container">
-          <input type="checkbox" id="sloped" name="sloped">
-          <label for="sloped" style="display: inline;">Sloped Surface</label>
-        </div>
-
-        <!-- Hidden Radio Buttons for Different Types of Slope -->
-        <div id="slopeDiv" class="radio-container">
-          <label for="slopeDiv">How sloped is the surface?</label>
-          <div> </div>
-          <div>
-            <label>
-              <input type="radio" id="radio1" name="slopeType" value="1">
-              Only slightly
-            </label>
+          <!-- Dropdown for Project Type -->
+          <select id="projectType" name="projectType" required>
+            <option value="">Select a project</option>
+            <option value="walkway">Walkway</option>
+            <option value="patio">Patio</option>
+            <option value="trash_can_pad">Trash Can Pad</option>
+            <!-- Add more options as needed -->
+          </select>
+          <div class="button-container">
+            <button class="next-btn" data-step="1">Next</button>
           </div>
+        </div>
+
+
+
+        <div class="quote-card" id="step-2">
+          <h2>What are the dimensions of the area?</h2>
+
+          <!-- Input for Length -->
+          <label for="length">Length (ft): <span id="lengthDisplay">10</span></label>
+          <input type="range" id="lengthValue" name="length" value="10" min="10" max="60" required
+            oninput="document.getElementById('lengthDisplay').innerText = this.value">
+
+          <!-- Input for Width -->
           <div>
-            <label>
-              <input type="radio" id="radio1" name="slopeType" value="2">
-              Fairly sloped
-            </label>
-          </div>
-          <div>
-            <label>
-              <input type="radio" id="radio1" name="slopeType" value="3">
-              Like a small cliff
-            </label>
+            <label for="width">Width (ft): <span id="widthDisplay">10</span></label>
+            <input type="range" id="widthValue" name="width" value="10" min="10" max="60" required
+              oninput="document.getElementById('widthDisplay').innerText = this.value">
           </div>
 
+          <div class="button-container">
+
+            <button class="prev-btn" data-step="2">Previous</button>
+            <button class="next-btn" data-step="2">Next</button>
+
+
+          </div>
 
         </div>
 
-        <div class="button-container">
-          
-          <button class="prev-btn" data-step="4">Previous</button>
-          <button class="next-btn" data-step="4">Next</button>
+        <div class="quote-card" id="step-3">
+          <h2>Do you require irrigation rerouting?</h2>
+
+          <!-- Checkbox for Irrigation Rerouting -->
+          <div class="checkbox-container">
+            <input type="checkbox" id="irrigation" name="irrigation">
+            <label for="irrigation" style="display: inline;">Irrigation Rerouting Required</label>
+          </div>
+
+          <div class="button-container">
+
+            <button class="prev-btn" data-step="3">Previous</button>
+            <button class="next-btn" data-step="3">Next</button>
+
+          </div>
+        </div>
+
+        <div class="quote-card" id="step-4">
+          <h2>Do you have a sloped surface?</h2>
+          <!-- Checkbox for Sloped Surface -->
+          <div class="checkbox-container">
+            <input type="checkbox" id="sloped" name="sloped">
+            <label for="sloped" style="display: inline;">Sloped Surface</label>
+          </div>
+
+          <!-- Hidden Radio Buttons for Different Types of Slope -->
+          <div id="slopeDiv" class="radio-container">
+            <label for="slopeDiv">How sloped is the surface?</label>
+            <div> </div>
+            <div>
+              <label>
+                <input type="radio" id="radio1" name="slopeType" value="1">
+                Only slightly
+              </label>
+            </div>
+            <div>
+              <label>
+                <input type="radio" id="radio1" name="slopeType" value="2">
+                Fairly sloped
+              </label>
+            </div>
+            <div>
+              <label>
+                <input type="radio" id="radio1" name="slopeType" value="3">
+                Like a small cliff
+              </label>
+            </div>
+
+
+          </div>
+
+          <div class="button-container">
+
+            <button class="prev-btn" data-step="4">Previous</button>
+            <button class="next-btn" data-step="4">Next</button>
+
+          </div>
+        </div>
+
+
+
+
+        <!-- Submit Button -->
+        <div class="quote-card" id="step-5">
+          <h2>All Done! Here is your quote.</h2>
+
+          <div class="quoteOutput" id="quoteOutput"></div>
 
         </div>
-      </div>
-
-
-
-
-      <!-- Submit Button -->
-      <div class="quote-card" id="step-5">
-        <h2>All Done! Here is your quote.</h2>
-
-        <div id="quoteOutput"></div>
-
-      </div>
 
 
 
 
 
+    </div>
   </div>
 
   </form>
