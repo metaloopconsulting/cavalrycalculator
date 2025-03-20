@@ -22,6 +22,10 @@
   --shadow-color: rgba(0, 0, 0, 0.1);
 }
 
+* {
+  box-sizing: border-box;
+}
+
 body {
   font-family: 'Inter', sans-serif;
   font-size: var(--p-size);
@@ -61,11 +65,11 @@ body {
 .progress-wrapper {
   position:fixed;
   display: flex;
-  top: 130px;
+  top: 135px;
   align-items: center;  /* Align text and progress bar */
   gap: 20px;  /* Space between text and progress bar */
   width: 80%;
-  max-width: 600px;
+  max-width: 900px;
   margin: 0 auto; /* Centers the progress tracker */
   padding: 5px 0;
 }
@@ -119,11 +123,11 @@ h2 {
   text-align: center;
   font-size: calc(var(--h2-size) * 1rem);
   color: #555;
-  margin-bottom: 25px;
+  margin-bottom: 50px;
 }
 
 .quote-wrapper {
-  margin-top: 160px;
+  margin-top: 170px;
   display: flex;
   justify-content: center; /* Ensures perfect centering */
   align-items: center; /* Aligns vertically in case needed */
@@ -140,12 +144,14 @@ h2 {
   border-radius: 12px;
   justify-content: center;
   align-items: center;
+  
 }
 
 
 .quote-card {
   position: absolute;
-  width: 95%;
+  width: 100%;
+  left: 0;
   padding: 10px;
   background: rgb(243, 243, 243);
   border-radius: 10px;
@@ -154,6 +160,7 @@ h2 {
   padding-bottom: 15px;
   transform: translateY(100%);
   transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
+ 
 }
 
 .quote-card.active {

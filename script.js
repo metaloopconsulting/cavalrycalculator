@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const buttonsContainer = document.querySelector(".quote-container");
 
   // Track the current step
-  let currentStep = 1;
+  //let currentStep = 1;
   const totalSteps = finalStep
 
   //Update steps tracker
@@ -40,26 +40,26 @@ document.addEventListener("DOMContentLoaded", function () {
     ;
   });
 
- //Progress bar functions
+  //Progress bar functions
 
- function updateProgressBar() {
-  const progressBar = document.getElementById(`progress-bar`);
-  const totalSteps = finalStep;
-  const progress = ((currentStep) / (totalSteps)) * 100;
+  function updateProgressBar() {
+    const progressBar = document.getElementById(`progress-bar`);
+    const totalSteps = finalStep;
+    const progress = ((currentStep) / (totalSteps)) * 100;
 
-  progressBar.style.width = `${progress}%`;
+    progressBar.style.width = `${progress}%`;
 
-  updateSteps();
+    updateSteps();
 
-  console.log(`✅ Progress updated: ${progress}%`);
-}
+    console.log(`✅ Progress updated: ${progress}%`);
+  }
 
-function updateSteps() {
-  const currentStepElement = document.getElementById(`step`);
-  currentStepElement.innerHTML = currentStep;
-  const totalStepsElement = document.getElementById(`totalSteps`);
-  totalStepsElement.innerHTML = totalSteps;
-}
+  function updateSteps() {
+    const currentStepElement = document.getElementById(`step`);
+    currentStepElement.innerHTML = currentStep;
+    const totalStepsElement = document.getElementById(`totalSteps`);
+    totalStepsElement.innerHTML = totalSteps;
+  }
 
   // Function to Validate and Move to Next Step
   function nextStep(step) {
@@ -87,12 +87,13 @@ function updateSteps() {
     // Hide current step and show the next step
     currentCard.classList.remove("active");
     nextCard.classList.add("active");
-    
+
 
     currentStep++;
     updateProgressBar();
-    
-    
+    showQuote();
+
+
   }
 
   // Function to Go Back to Previous Step
@@ -102,11 +103,11 @@ function updateSteps() {
 
     currentCard.classList.remove("active");
     prevCard.classList.add("active");
-    
+
 
     currentStep--;
     updateProgressBar();
-    
+
   }
 
   //Listener for the slider fill
@@ -206,6 +207,40 @@ function showQuote() {
       console.error("❌ Error: #quoteOutput not found in the DOM.");
       return;
     }
+
+    // Calculate slope price
+    let slopeCost = 0;
+    let slopeId = 0
+    let slopeChecked = document.getElementById("sloped").checked;
+
+    if (slopeChecked) {
+      slopeId = document.querySelector('input[name="slopeType"]:checked').value;
+    }
+
+      if (slopeId === "1") {
+        slopeCost = 50;
+      } else if (slopeId === "2") {
+        slopeCost = 100;
+      } else if (slopeId === "3") {
+        slopeCost = 150;
+      } else {
+        slopeCost = 0;
+      }
+    
+
+
+
+    // Get the values from the form
+    const projectType = document.getElementById("projectType").value;
+    const length = parseFloat(document.getElementById("lengthValue").value);
+    const width = parseFloat(document.getElementById("widthValue").value);
+    const area = length * width;
+    const irrigation = document.getElementById("irrigation").checked;
+    const slopePrice = slopeCost;
+    const irrigationCost = irrigation ? 75 : 0;
+    const quote = calculateQuote(projectType, area, irrigation, slopePrice);
+    const customerPricePerSqFt = quote/area;
+
 
     // Your existing quote calculation logic
     document.getElementById('quoteOutput').innerHTML = `
