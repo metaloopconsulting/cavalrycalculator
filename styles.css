@@ -57,6 +57,53 @@ body {
 }
 
 
+/* Wrapper for Progress Bar & Text */
+.progress-wrapper {
+  position:fixed;
+  display: flex;
+  top: 130px;
+  align-items: center;  /* Align text and progress bar */
+  gap: 20px;  /* Space between text and progress bar */
+  width: 80%;
+  max-width: 600px;
+  margin: 0 auto; /* Centers the progress tracker */
+  padding: 5px 0;
+}
+
+/* Text Area Next to Progress Bar */
+.progress-text {
+  flex-shrink: 0; /* Prevents text from resizing */
+  text-align: left;
+}
+
+.progress-text h2 {
+  font-size: 15px;
+  margin: 0;
+  color: #333;
+}
+
+.progress-text p {
+  font-size: 12px;
+  margin: 0px 0 0;
+  color: #666;
+}
+
+/* Progress Bar Container */
+.progress-container {
+  flex-grow: 1;  /* Allows the progress bar to take up remaining space */
+  height: 10px;
+  background: #ddd;
+  border-radius: 5px;
+  overflow: hidden; /* Keeps progress bar inside container */
+}
+
+/* Progress Fill Bar */
+.progress-bar {
+  width: 5%; /* Starts empty */
+  height: 100%;
+  background: #0077b6; /* Blue progress color */
+  transition: width 0.5s ease-in-out; /* Smooth animation */
+}
 
 
 
@@ -76,7 +123,7 @@ h2 {
 }
 
 .quote-wrapper {
-  margin-top: 150px;
+  margin-top: 160px;
   display: flex;
   justify-content: center; /* Ensures perfect centering */
   align-items: center; /* Aligns vertically in case needed */
@@ -91,6 +138,8 @@ h2 {
   margin: auto;
   padding: 20px;
   border-radius: 12px;
+  justify-content: center;
+  align-items: center;
 }
 
 

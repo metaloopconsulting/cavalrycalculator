@@ -5,6 +5,7 @@ let finalStep = 6; // The final step
 
 //Button click event listeners
 document.addEventListener("DOMContentLoaded", function () {
+  //Navigation between steps
 
   const form = document.getElementById("quoteForm");
   const buttonsContainer = document.querySelector(".quote-container");
@@ -12,6 +13,9 @@ document.addEventListener("DOMContentLoaded", function () {
   // Track the current step
   let currentStep = 1;
   const totalSteps = finalStep
+
+  //Update steps tracker
+  updateSteps();
 
   // Next Button Click Event
   buttonsContainer.addEventListener("click", function (event) {
@@ -36,6 +40,26 @@ document.addEventListener("DOMContentLoaded", function () {
     ;
   });
 
+ //Progress bar functions
+
+ function updateProgressBar() {
+  const progressBar = document.getElementById(`progress-bar`);
+  const totalSteps = finalStep;
+  const progress = ((currentStep) / (totalSteps)) * 100;
+
+  progressBar.style.width = `${progress}%`;
+
+  updateSteps();
+
+  console.log(`✅ Progress updated: ${progress}%`);
+}
+
+function updateSteps() {
+  const currentStepElement = document.getElementById(`step`);
+  currentStepElement.innerHTML = currentStep;
+  const totalStepsElement = document.getElementById(`totalSteps`);
+  totalStepsElement.innerHTML = totalSteps;
+}
 
   // Function to Validate and Move to Next Step
   function nextStep(step) {
@@ -63,8 +87,12 @@ document.addEventListener("DOMContentLoaded", function () {
     // Hide current step and show the next step
     currentCard.classList.remove("active");
     nextCard.classList.add("active");
+    
 
     currentStep++;
+    updateProgressBar();
+    
+    
   }
 
   // Function to Go Back to Previous Step
@@ -74,8 +102,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
     currentCard.classList.remove("active");
     prevCard.classList.add("active");
+    
 
     currentStep--;
+    updateProgressBar();
+    
   }
 
   //Listener for the slider fill
