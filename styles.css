@@ -135,6 +135,20 @@ select {
   margin-top: 10px;
 }
 
+input[type=email] {
+  width: 60%;
+  padding: 10px;
+  font-size: var(--p-size);
+  border: 1px solid var(--input-border-color);
+  border-radius: 8px;
+  box-shadow: 2px 2px 5px var(--shadow-color);
+  transition: all 0.2s ease-in-out;
+  margin: 0 auto; /* Centers the select input */
+  display: block;
+  text-align: center; /* Centers the text inside the select input */
+  margin-top: 10px;
+}
+
 /* General Styling for Range Slider */
 input[type="range"] {
   -webkit-appearance: none; /* Removes default styling */

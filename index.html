@@ -130,32 +130,42 @@
           </div>
         </div>
 
+        <div class="quote-card" id="step-5">
+          <h2>Enter your email address</h2>
+          <input type="email" id="email" name="email" required>
+          <div class="button-container">
 
-<div class="quote-card" id="step-5">
-  <h2>Pay your quote fee to see your quote now</h2>
-  
-  <div class="stripe-buy-button">
-    <stripe-buy-button
-      buy-button-id="buy_btn_1R4W9vDG9lmlaVn1vFZ6iPoi"
-      publishable-key="pk_test_51QtdGZDG9lmlaVn1QVrgLWaZ4zjdZDRubSk2BvzN4Zo2vxSwP8DsTecdPSeXARFDfGN2iKMDQchSw4W4ALqC8a90004GkjQCnw"
-    >
-    </stripe-buy-button>
-  </div>
+            <button class="prev-btn" data-step="5">Previous</button>
+            <button type="submit" class="submit-btn" data-step="5">Next</button>
 
-    <div class="button-container">
-      <button class="prev-btn" data-step="5">Previous</button>
-    </div>
-  
-    </div>
- 
+          </div>
+        </div>
 
 
-    
+        <div class="quote-card" id="step-6">
+          <h2>Pay your quote fee to see your quote now</h2>
+
+          <div class="stripe-buy-button">
+            <stripe-buy-button buy-button-id="buy_btn_1R4W9vDG9lmlaVn1vFZ6iPoi"
+              publishable-key="pk_test_51QtdGZDG9lmlaVn1QVrgLWaZ4zjdZDRubSk2BvzN4Zo2vxSwP8DsTecdPSeXARFDfGN2iKMDQchSw4W4ALqC8a90004GkjQCnw"
+              onload="window.close()">
+            </stripe-buy-button>
+          </div>
+
+          <div class="button-container">
+            <button class="prev-btn" data-step="6">Previous</button>
+          </div>
+
+        </div>
+
+
+
+
 
 
 
         <!-- Submit Button -->
-        <div class="quote-card" id="step-6">
+        <div class="quote-card" id="step-7">
           <h2>All Done! Here is your quote.</h2>
 
           <div class="quoteOutput" id="quoteOutput"></div>
@@ -167,9 +177,11 @@
 
 
     </div>
+    </form>
+
   </div>
 
-  </form>
+
 
   <!-- Link your JavaScript file -->
   <script src="script.js"></script>
