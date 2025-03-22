@@ -205,6 +205,15 @@ label {
   border-color: #0056b3;
 }
 
+.range-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto; /* Center the container itself */
+}
+
 /* Ensure select dropdown align properly */
 select {
   width: 60%;
@@ -238,14 +247,12 @@ input[type=email] {
 input[type="range"] {
   -webkit-appearance: none; /* Removes default styling */
   appearance: none;
-  width: 80%;
+  width: 100%;
   height: 25px; /* Thicker track for easier control */
   background: #ddd; /* Light background */
   border-radius: 6px;
   outline: none;
-  margin-left: 15px;
-  margin-top: 20px;
-  margin-bottom: 20px;
+  margin: 15px auto; /* Centers the range input */
   transition: (--secondary-color) 0.3s ease-in-out;
 }
 
@@ -253,8 +260,8 @@ input[type="range"] {
 input[type="range"]::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
-  width: 32px; /* Make it larger for mobile users */
-  height: 32px;
+  width: 40px; /* Make it larger for mobile users */
+  height: 40px;
   background: #0077b6; /* Blue color */
   border-radius: 50%;
   cursor: pointer;

@@ -50,7 +50,8 @@
           <div class="button-options">
             <button type="button" class="option-btn" id="project-button" data-value="walkway">Walkway</button>
             <button type="button" class="option-btn" id="project-button" data-value="patio">Patio</button>
-            <button type="button" class="option-btn" id="project-button" data-value="trash_can_pad">Trash Can Pad</button>
+            <button type="button" class="option-btn" id="project-button" data-value="trash_can_pad">Trash Can
+              Pad</button>
             <!-- Add more buttons as needed -->
           </div>
 
@@ -67,16 +68,20 @@
         <div class="quote-card" id="step-2">
           <h2>What are the dimensions of the area?</h2>
 
-          <!-- Input for Length -->
-          <label for="length">Length (ft): <span id="lengthDisplay">10</span></label>
-          <input type="range" id="lengthValue" name="length" value="10" min="10" max="60" required
-            oninput="document.getElementById('lengthDisplay').innerText = this.value">
+          <div class="range-container">
 
-          <!-- Input for Width -->
-          <div>
-            <label for="width">Width (ft): <span id="widthDisplay">10</span></label>
-            <input type="range" id="widthValue" name="width" value="10" min="10" max="60" required
+            <!-- Input for Length -->
+            <label for="length">Length (ft): <span id="lengthDisplay">10</span></label>
+            <input type="range" id="lengthValue" name="length" value="10" min="10" max="60" required
+              oninput="document.getElementById('lengthDisplay').innerText = this.value">
+
+            <!-- Input for Width -->
+            <div>
+              <label for="width">Width (ft): <span id="widthDisplay">10</span></label>
+              <input type="range" id="widthValue" name="width" value="10" min="10" max="60" required
               oninput="document.getElementById('widthDisplay').innerText = this.value">
+            </div>
+
           </div>
 
           <div class="button-container">
@@ -95,8 +100,10 @@
           <!-- Buttons for Irrigation Type -->
           <div class="button-options">
             <button type="button" class="option-btn" id="irrigation-button" data-value="none">No Irrigation</button>
-            <button type="button" class="option-btn" id="irrigation-button" data-value="capped">Needs to be Capped</button>
-            <button type="button" class="option-btn" id="irrigation-button" data-value="rerouted">Needs Rerouting</button>
+            <button type="button" class="option-btn" id="irrigation-button" data-value="capped">Needs to be
+              Capped</button>
+            <button type="button" class="option-btn" id="irrigation-button" data-value="rerouted">Needs
+              Rerouting</button>
             <!-- Add more buttons as needed -->
           </div>
 
@@ -113,7 +120,7 @@
 
         <div class="quote-card" id="step-4">
           <h2>Do you have a sloped surface?</h2>
-          
+
           <!-- Buttons for Slope Type -->
           <div class="button-options">
             <button type="button" class="option-btn" id="slope-button" data-value="none">Flat Surface</button>

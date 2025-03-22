@@ -12,6 +12,7 @@ document.addEventListener("DOMContentLoaded", function () {
   projectButtons.forEach(btn => {
     btn.addEventListener('click', function () {
       selectProjectType(this.dataset.value);
+      updateMinMaxValues();
     });
   });
 
@@ -30,6 +31,7 @@ document.addEventListener("DOMContentLoaded", function () {
       selectSlopeType(this.dataset.value);
     });
   });
+
 
 
   //Navigation between steps
@@ -66,6 +68,39 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     ;
   });
+
+  //Project Type Selection Update Min and Max Values Function
+  function updateMinMaxValues() {
+    const projectType = document.getElementById('projectType').value;
+    const lengthSlider = document.getElementById('lengthValue');
+    const widthSlider = document.getElementById('widthValue');
+    const lengthDisplay = document.getElementById('lengthDisplay');
+    const widthDisplay = document.getElementById('widthDisplay');
+
+
+    if (projectType === 'walkway') {
+      lengthSlider.min = 10;
+      lengthSlider.max = 50;
+      widthSlider.min = 4;
+      widthSlider.max = 6;
+    } else if (projectType === 'patio') {
+      lengthSlider.min = 5;
+      lengthSlider.max = 20;
+      widthSlider.min = 5;
+      widthSlider.max = 20;
+    } else if (projectType === 'trash_can_pad') {
+      lengthSlider.min = 3;
+      lengthSlider.max = 10;
+      widthSlider.min = 3;
+      widthSlider.max = 10;
+    }
+
+    // Reset slider values and displays
+    lengthSlider.value = lengthSlider.min;
+    widthSlider.value = widthSlider.min;
+    lengthDisplay.innerText = lengthSlider.value;
+    widthDisplay.innerText = widthSlider.value;
+  };
 
   //Progress bar functions
 
@@ -123,8 +158,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
   }
 
-   // Function to Go Back to Previous Step
-   function prevStep(step) {
+  // Function to Go Back to Previous Step
+  function prevStep(step) {
     let currentCard = document.getElementById(`step-${step}`);
     let prevCard = document.getElementById(`step-${step - 1}`);
 
@@ -164,7 +199,7 @@ document.addEventListener("DOMContentLoaded", function () {
     setTimeout(() => nextStep(4), 300);
   }
 
- 
+
 
   //Listener for the slider fill
   const sliders = document.querySelectorAll('input[type="range"]');
@@ -191,7 +226,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 function getPricePerSqFt(area) {
-  
+
   const minArea = 100;
   const maxArea = 400;
   const maxPrice = 22;
@@ -206,7 +241,7 @@ function getPricePerSqFt(area) {
 }
 
 function calculateQuote(projectType, area, irrigationPrice, slopePrice) {
-  
+
   let basePricePerSqFt = getPricePerSqFt(area);
   let baseCost = (basePricePerSqFt * area);
   let customerCost = 0;
@@ -218,7 +253,8 @@ function calculateQuote(projectType, area, irrigationPrice, slopePrice) {
 
   //Minimum price for things not trash can pad
   if (projectType === "trashcanpad") {
-    customerCost = customerCost }
+    customerCost = customerCost
+  }
   else if (customerCost < 2600) {
     customerCost = 2600;
   }
