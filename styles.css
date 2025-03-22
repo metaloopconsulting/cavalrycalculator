@@ -9,8 +9,8 @@
 }
 
 :root {
-  --base-font-size: clamp(20px, 2vw, 30px);
-  --font-scale-major-third: 1.25;
+  --base-font-size: clamp(20px, 2vw, 28px);
+  --font-scale-major-third: 1.50;
   
   --h1-size: calc(var(--base-font-size) * var(--font-scale-major-third) * var(--font-scale-major-third));
   --h2-size: calc(var(--base-font-size) * var(--font-scale-major-third));
@@ -113,7 +113,7 @@ body {
 
 /* Headings */
 h1 {
-  font-size: calc(var(--h1-size) * 1rem);
+  font-size: var(--h1-size);
   color: var(--primary-color);
   text-align: center;
   margin-bottom: 25px;
@@ -121,9 +121,14 @@ h1 {
 
 h2 {
   text-align: center;
-  font-size: calc(var(--h2-size) * 1rem);
+  font-size: var(--h2-size);
   color: #555;
-  margin-bottom: 50px;
+  margin: 30px 5px 40px;
+}
+
+p {
+  font-size: var(--p-size);
+  margin-bottom: 20px;
 }
 
 .quote-wrapper {
@@ -170,10 +175,33 @@ h2 {
 }
 
 label {
-  font-size: calc(var(--p-size) * 1rem);
+  font-size: var(--p-size);
   font-weight: 400;
   margin-bottom: 10px;
   margin-left: 10px;
+}
+
+.button-options {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 80%;
+  max-width: 500px;
+  margin: 0 auto; /* Center the container itself */
+}
+
+.option-btn {
+  padding: 20px;
+  border: 1px solid #ccc;
+  background-color: #f9f9f9;
+  cursor: pointer;
+  text-align: middle;
+}
+
+.option-btn.selected {
+  background-color: #007bff;
+  color: #fff;
+  border-color: #0056b3;
 }
 
 /* Ensure select dropdown align properly */

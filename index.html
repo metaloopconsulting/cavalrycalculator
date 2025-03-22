@@ -44,18 +44,21 @@
       <form id="quoteForm">
 
         <div class="quote-card active" id="step-1">
-          <h2>What kind of project are you needing done?</h2>
+          <h2>What kind of project?</h2>
 
-          <!-- Dropdown for Project Type -->
-          <select id="projectType" name="projectType" required>
-            <option value="">Select a project</option>
-            <option value="walkway">Walkway</option>
-            <option value="patio">Patio</option>
-            <option value="trash_can_pad">Trash Can Pad</option>
-            <!-- Add more options as needed -->
-          </select>
+          <!-- Buttons for Project Type -->
+          <div class="button-options">
+            <button type="button" class="option-btn" id="project-button" data-value="walkway">Walkway</button>
+            <button type="button" class="option-btn" id="project-button" data-value="patio">Patio</button>
+            <button type="button" class="option-btn" id="project-button" data-value="trash_can_pad">Trash Can Pad</button>
+            <!-- Add more buttons as needed -->
+          </div>
+
+          <!-- Hidden input to store selected project type -->
+          <input type="hidden" id="projectType" name="projectType" required>
+
           <div class="button-container">
-            <button class="next-btn" data-step="1">Next</button>
+            <button type="hidden" class="next-btn" data-step="1">Next</button>
           </div>
         </div>
 

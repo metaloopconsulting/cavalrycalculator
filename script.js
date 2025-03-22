@@ -5,6 +5,16 @@ let finalStep = 6; // The final step
 
 //Button click event listeners
 document.addEventListener("DOMContentLoaded", function () {
+  //Listeners for the buttons on the project selection
+  const projectValue = document.getElementById('project-button').value;
+  const projectButtons = document.querySelectorAll('.option-btn');
+  projectButtons.forEach(btn => {
+    btn.addEventListener('click', function () {
+      selectProjectType(this.dataset.value);
+    });
+  });
+  
+  
   //Navigation between steps
 
   const form = document.getElementById("quoteForm");
@@ -94,6 +104,15 @@ document.addEventListener("DOMContentLoaded", function () {
     showQuote();
 
 
+  }
+
+  //Function for buttons on project selection
+  function selectProjectType(value) {
+    document.getElementById('projectType').value = value;
+    const buttons = document.querySelectorAll('.option-btn');
+    buttons.forEach(btn => btn.classList.remove('selected'));
+    document.querySelector(`.option-btn[data-value="${value}"]`).classList.add('selected');
+    setTimeout(() => nextStep(1), 300);
   }
 
   // Function to Go Back to Previous Step
