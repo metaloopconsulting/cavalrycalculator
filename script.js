@@ -1,20 +1,37 @@
 //Navigation between steps
 let currentStep = 1; // Track the current step
 let finalStep = 6; // The final step
+let calculatorMargin = 0.2; // Margin for the calculator
 
 
 //Button click event listeners
 document.addEventListener("DOMContentLoaded", function () {
+
   //Listeners for the buttons on the project selection
-  const projectValue = document.getElementById('project-button').value;
-  const projectButtons = document.querySelectorAll('.option-btn');
+  const projectButtons = document.querySelectorAll('#project-button');
   projectButtons.forEach(btn => {
     btn.addEventListener('click', function () {
       selectProjectType(this.dataset.value);
     });
   });
-  
-  
+
+  //Listeners for the buttons on the irrigation selection
+  const irrigationButtons = document.querySelectorAll('#irrigation-button');
+  irrigationButtons.forEach(btn => {
+    btn.addEventListener('click', function () {
+      selectIrrigationType(this.dataset.value);
+    });
+  });
+
+  //Listeners for the buttons on the slope selection
+  const slopeButtons = document.querySelectorAll('#slope-button');
+  slopeButtons.forEach(btn => {
+    btn.addEventListener('click', function () {
+      selectSlopeType(this.dataset.value);
+    });
+  });
+
+
   //Navigation between steps
 
   const form = document.getElementById("quoteForm");
@@ -106,17 +123,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
   }
 
-  //Function for buttons on project selection
-  function selectProjectType(value) {
-    document.getElementById('projectType').value = value;
-    const buttons = document.querySelectorAll('.option-btn');
-    buttons.forEach(btn => btn.classList.remove('selected'));
-    document.querySelector(`.option-btn[data-value="${value}"]`).classList.add('selected');
-    setTimeout(() => nextStep(1), 300);
-  }
-
-  // Function to Go Back to Previous Step
-  function prevStep(step) {
+   // Function to Go Back to Previous Step
+   function prevStep(step) {
     let currentCard = document.getElementById(`step-${step}`);
     let prevCard = document.getElementById(`step-${step - 1}`);
 
@@ -128,6 +136,35 @@ document.addEventListener("DOMContentLoaded", function () {
     updateProgressBar();
 
   }
+
+  //Function for buttons on project selection
+  function selectProjectType(value) {
+    document.getElementById('projectType').value = value;
+    const buttons = document.querySelectorAll('.option-btn');
+    buttons.forEach(btn => btn.classList.remove('selected'));
+    document.querySelector(`.option-btn[data-value="${value}"]`).classList.add('selected');
+    setTimeout(() => nextStep(1), 300);
+  }
+
+  //Function for buttons on irrigation selection
+  function selectIrrigationType(value) {
+    document.getElementById('irrigationType').value = value;
+    const buttons = document.querySelectorAll('.option-btn');
+    buttons.forEach(btn => btn.classList.remove('selected'));
+    document.querySelector(`.option-btn[data-value="${value}"]`).classList.add('selected');
+    setTimeout(() => nextStep(3), 300);
+  }
+
+  //Function for buttons on slope selection
+  function selectSlopeType(value) {
+    document.getElementById('slopeType').value = value;
+    const buttons = document.querySelectorAll('.option-btn');
+    buttons.forEach(btn => btn.classList.remove('selected'));
+    document.querySelector(`.option-btn[data-value="${value}"]`).classList.add('selected');
+    setTimeout(() => nextStep(4), 300);
+  }
+
+ 
 
   //Listener for the slider fill
   const sliders = document.querySelectorAll('input[type="range"]');
@@ -153,13 +190,8 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 
-
-//Listener for the Sloped Surface checkbox
-document.getElementById("sloped").addEventListener("click", showSlope);
-
-
-
 function getPricePerSqFt(area) {
+  
   const minArea = 100;
   const maxArea = 400;
   const maxPrice = 22;
@@ -173,37 +205,25 @@ function getPricePerSqFt(area) {
   return pricePerSqFt;
 }
 
-function calculateQuote(projectType, area, irrigation, slopePrice) {
+function calculateQuote(projectType, area, irrigationPrice, slopePrice) {
+  
   let basePricePerSqFt = getPricePerSqFt(area);
+  let baseCost = (basePricePerSqFt * area);
+  let customerCost = 0;
 
+  const margin = calculatorMargin;
 
+  customerCost = baseCost * (1 + margin);
+  customerCost += irrigationPrice + slopePrice;
 
-  let baseCost = basePricePerSqFt * area;
-
-  if (irrigation) baseCost += 75;
-  baseCost += slopePrice;
-
-  const margin = 0.20;
-  const customerCost = baseCost * (1 + margin);
-
-
-  return customerCost;
-}
-
-//Handles if the sloped surface checkbox is checked, and if so displays three more checkboxes
-function showSlope() {
-  var checkBox = document.getElementById("sloped");
-  var slopeDiv = document.getElementById("slopeDiv");
-  if (checkBox.checked == true) {
-    slopeDiv.style.display = "flex";
-  } else {
-    slopeDiv.style.display = "none";
+  //Minimum price for things not trash can pad
+  if (projectType === "trashcanpad") {
+    customerCost = customerCost }
+  else if (customerCost < 2600) {
+    customerCost = 2600;
   }
 
-  //makes radio 1 required if sloped is checked
-  var radio1 = document.getElementById("radio1");
-  radio1.required = checkBox.checked;
-
+  return customerCost;
 }
 
 //Handles showing the output of the quote
@@ -227,25 +247,34 @@ function showQuote() {
       return;
     }
 
-    // Calculate slope price
-    let slopeCost = 0;
-    let slopeId = 0
-    let slopeChecked = document.getElementById("sloped").checked;
+    // Calculate irrigation price
+    let irrigationPrice = 0;
+    let irrigationValue = document.getElementById("irrigationType").value;
 
-    if (slopeChecked) {
-      slopeId = document.querySelector('input[name="slopeType"]:checked').value;
+    if (irrigationValue === "none") {
+      irrigationPrice = 0;
+    } else if (irrigationValue === "capped") {
+      irrigationPrice = 50;
+    } else if (irrigationValue === "rerouted") {
+      irrigationPrice = 100;
     }
 
-      if (slopeId === "1") {
-        slopeCost = 50;
-      } else if (slopeId === "2") {
-        slopeCost = 100;
-      } else if (slopeId === "3") {
-        slopeCost = 150;
-      } else {
-        slopeCost = 0;
-      }
-    
+    // Calculate slope price
+    let slopePrice = 0;
+    let slopeValue = document.getElementById("slopeType").value;
+
+    if (slopeValue === "none") {
+      slopePrice = 0;
+    } else if (slopeValue === "slight") {
+      slopePrice = 100;
+    } else if (slopeValue === "moderate") {
+      slopePrice = 200;
+    } else if (slopeValue === "high") {
+      slopePrice = 300;
+    } else {
+      slopeCost = 0;
+    }
+
 
 
 
@@ -254,11 +283,8 @@ function showQuote() {
     const length = parseFloat(document.getElementById("lengthValue").value);
     const width = parseFloat(document.getElementById("widthValue").value);
     const area = length * width;
-    const irrigation = document.getElementById("irrigation").checked;
-    const slopePrice = slopeCost;
-    const irrigationCost = irrigation ? 75 : 0;
-    const quote = calculateQuote(projectType, area, irrigation, slopePrice);
-    const customerPricePerSqFt = quote/area;
+    const quote = calculateQuote(projectType, area, irrigationPrice, slopePrice);
+    const customerPricePerSqFt = (quote - (irrigationPrice + slopePrice)) / area;
 
 
     // Your existing quote calculation logic
@@ -268,8 +294,8 @@ function showQuote() {
         <table class="invoice-table">
           <tr><td><strong>Total Sq Ft:</strong></td><td>${area.toFixed(2)} sq ft</td></tr>
           <tr><td><strong>Price Per Sq Ft:</strong></td><td>${customerPricePerSqFt.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</td></tr>
-          <tr><td><strong>Price for Irrigation:</strong></td><td>${irrigationCost.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</td></tr>
-          <tr><td><strong>Price for Slope Adjustment:</strong></td><td>${slopePrice.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</td></tr>
+          <tr><td><strong>Irrigation Adjustment Price:</strong></td><td>${irrigationPrice.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</td></tr>
+          <tr><td><strong>Slope Adjustment Price:</strong></td><td>${slopePrice.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</td></tr>
         </table>
 
         <div class="total-amount">

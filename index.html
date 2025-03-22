@@ -92,11 +92,16 @@
         <div class="quote-card" id="step-3">
           <h2>Do you require irrigation rerouting?</h2>
 
-          <!-- Checkbox for Irrigation Rerouting -->
-          <div class="checkbox-container">
-            <input type="checkbox" id="irrigation" name="irrigation">
-            <label for="irrigation" style="display: inline;">Irrigation Rerouting Required</label>
+          <!-- Buttons for Irrigation Type -->
+          <div class="button-options">
+            <button type="button" class="option-btn" id="irrigation-button" data-value="none">No Irrigation</button>
+            <button type="button" class="option-btn" id="irrigation-button" data-value="capped">Needs to be Capped</button>
+            <button type="button" class="option-btn" id="irrigation-button" data-value="rerouted">Needs Rerouting</button>
+            <!-- Add more buttons as needed -->
           </div>
+
+          <!-- Hidden input to store selected project type -->
+          <input type="hidden" id="irrigationType" name="irrigationType" required>
 
           <div class="button-container">
 
@@ -108,37 +113,18 @@
 
         <div class="quote-card" id="step-4">
           <h2>Do you have a sloped surface?</h2>
-          <!-- Checkbox for Sloped Surface -->
-          <div class="checkbox-container">
-            <input type="checkbox" id="sloped" name="sloped">
-            <label for="sloped" style="display: inline;">Sloped Surface</label>
+          
+          <!-- Buttons for Slope Type -->
+          <div class="button-options">
+            <button type="button" class="option-btn" id="slope-button" data-value="none">Flat Surface</button>
+            <button type="button" class="option-btn" id="slope-button" data-value="slight">Slightly Sloped</button>
+            <button type="button" class="option-btn" id="slope-button" data-value="moderate">Mildly Sloped</button>
+            <button type="button" class="option-btn" id="slope-button" data-value="high">Very Sloped</button>
+            <!-- Add more buttons as needed -->
           </div>
 
-          <!-- Hidden Radio Buttons for Different Types of Slope -->
-          <div id="slopeDiv" class="radio-container">
-            <label for="slopeDiv">How sloped is the surface?</label>
-            <div> </div>
-            <div>
-              <label>
-                <input type="radio" id="radio1" name="slopeType" value="1">
-                Only slightly
-              </label>
-            </div>
-            <div>
-              <label>
-                <input type="radio" id="radio1" name="slopeType" value="2">
-                Fairly sloped
-              </label>
-            </div>
-            <div>
-              <label>
-                <input type="radio" id="radio1" name="slopeType" value="3">
-                Like a small cliff
-              </label>
-            </div>
-
-
-          </div>
+          <!-- Hidden input to store selected project type -->
+          <input type="hidden" id="slopeType" name="slopeType" required>
 
           <div class="button-container">
 
