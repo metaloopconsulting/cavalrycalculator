@@ -2,14 +2,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap');
 
 
-@media (max-width: 768px) {
-  :root {
-    --base-font-size: clamp(20px, 3vw, 28px); /* Make text slightly larger on small screens */
-  }
-}
 
 :root {
-  --base-font-size: clamp(20px, 2vw, 28px);
+  --base-font-size: clamp(1.5rem, 3vw, 2vh);
   --font-scale-major-third: 1.50;
   
   --h1-size: calc(var(--base-font-size) * var(--font-scale-major-third) * var(--font-scale-major-third));
@@ -191,7 +186,7 @@ label {
 }
 
 .option-btn {
-  padding: 20px;
+  padding: 1.6vh 4vw;
   border: 1px solid #ccc;
   background-color: #f9f9f9;
   cursor: pointer;
@@ -199,7 +194,13 @@ label {
 }
 
 .option-btn.selected {
-  background-color: #007bff;
+  background-color: var(--primary-color);
+  color: #fff;
+  border-color: #0056b3;
+}
+
+.option-btn:hover {
+  background-color: var(--primary-color);
   color: #fff;
   border-color: #0056b3;
 }
@@ -279,7 +280,7 @@ input[type="range"]::-webkit-slider-thumb:active {
 
 /* Fix button alignment */
 button {
-  padding: 12px 20px;
+  padding: 10px 20px;
   font-size: (var(--p-size));
   font-weight: bold;
   border: none;
@@ -290,13 +291,18 @@ button {
 }
 
 .prev-btn {
-  background-color: #e2e2e2;
+  background-color: #f0f0f0;
   color: #333;
+  font-weight: 200;
+  border-style: groove;
+  border-color: #555;
+  border-width: 2px;
 }
 
 .next-btn {
-  background-color: #0077b6;
+  background-color: var(--primary-color);
   color: white;
+  padding: 10px 30px
 }
 
 .stripe-buy-button {
