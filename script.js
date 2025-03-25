@@ -2,10 +2,17 @@
 let currentStep = 1; // Track the current step
 let finalStep = 6; // The final step
 let calculatorMargin = 0.2; // Margin for the calculator
+let backendURL = `https://cavalrycalculator-backend-production.up.railway.app/`;
+let backendPort = `8080`;
 
 
 //Button click event listeners
 document.addEventListener("DOMContentLoaded", function () {
+
+  //ping backend
+  fetch(backendURL)
+    .then(response => response.text())
+    .then(data => console.log(data))
 
   //Listeners for the buttons on the project selection
   const projectButtons = document.querySelectorAll('#project-button');
@@ -30,6 +37,12 @@ document.addEventListener("DOMContentLoaded", function () {
     btn.addEventListener('click', function () {
       selectSlopeType(this.dataset.value);
     });
+  });
+
+  //Listener for email change to check existing email
+  const emailInput = document.getElementById('email');
+  emailInput.addEventListener('change', function () {
+    checkEmail(this.value);
   });
 
 
@@ -223,6 +236,30 @@ document.addEventListener("DOMContentLoaded", function () {
     slider.style.background = `linear-gradient(to right,rgb(0, 62, 95) ${percentage}%, #ddd ${percentage}%)`;
   }
 });
+
+//Backend function to check for existing email
+function checkEmail(email) {
+  fetch(`${backendURL}ghl/contacts`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ email: email })
+  })
+    .then(response => {
+      if (response.status === 404) {
+        console.log("Email not found");
+        return false;
+      } else {
+            response.json().then(data => {
+            console.log("Emails found: ", data.total);
+            });
+            return true;
+        }
+      }
+    )
+    .catch(error => console.error('Error:', error));
+}
 
 
 function getPricePerSqFt(area) {
