@@ -229,7 +229,8 @@ select {
   margin-top: 10px;
 }
 
-input[type=email] {
+
+input[type=email], input[type=text] {
   width: 60%;
   padding: 10px;
   font-size: var(--p-size);

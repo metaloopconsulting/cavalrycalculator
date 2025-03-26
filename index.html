@@ -142,12 +142,15 @@
         </div>
 
         <div class="quote-card" id="step-5">
-          <h2>Enter your email address</h2>
-          <input type="email" id="email" name="email" required>
+          <h2>Let's get your info so we can send the quote over</h2>
+          <input type="text" id="firstName" name="firstName" placeholder="First Name" required>
+          <input type="text" id="lastName" name="lastName" placeholder="Last Name" required>
+          <input type="email" id="email" name="email" placeholder="Email" required>
+
           <div class="button-container">
 
             <button class="prev-btn" data-step="5">Back</button>
-            <button type="submit" class="next-btn" data-step="5">Next Step</button>
+            <button type="submit" class="next-btn" data-step="5" id="submit-btn">Next Step</button>
 
           </div>
         </div>

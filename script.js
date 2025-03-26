@@ -39,10 +39,27 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-  //Listener for email change to check existing email
-  const emailInput = document.getElementById('email');
-  emailInput.addEventListener('change', function () {
-    checkEmail(this.value);
+  //Listener for first name last name and email input on submit button
+  const submitButton = document.getElementById('submit-btn');
+
+  submitButton.addEventListener('click', async function () {
+
+    const firstName = document.getElementById('firstName').value;
+    const lastName = document.getElementById('lastName').value;
+    const email = document.getElementById('email').value;
+
+    if (firstName && lastName && email) {
+
+      const existingEmail = await checkEmail(email);
+
+      if (existingEmail === false) {
+        await createCustomer(email, firstName, lastName);
+      }
+
+    } else {
+      alert("Please fill out all required fields before continuing.");
+
+    }
   });
 
 
@@ -126,7 +143,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     updateSteps();
 
-    console.log(`✅ Progress updated: ${progress}%`);
+    //console.log(`✅ Progress updated: ${progress}%`);
   }
 
   function updateSteps() {
@@ -238,29 +255,44 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 //Backend function to check for existing email
-function checkEmail(email) {
-  fetch(`${backendURL}ghl/contacts`, {
+async function checkEmail(email) {
+  console.log("⌛ Checking email in GHL...");
+  const response = await fetch(`${backendURL}ghl/contacts/check`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({ email: email })
   })
-    .then(response => {
-      if (response.status === 404) {
-        console.log("Email not found");
-        return false;
-      } else {
-            response.json().then(data => {
-            console.log("Emails found: ", data.total);
-            });
-            return true;
-        }
-      }
-    )
-    .catch(error => console.error('Error:', error));
+  const data = await response.json();
+
+  if (data.total === 0 || data.message === "No contact found") {
+    console.log("📩 No emails found in GHL");
+    return false;
+
+  } else {
+    console.log("📧 Email found in GHL");
+    return true;
+  }
 }
 
+//Backend function to create a new customer
+async function createCustomer(email, firstName, lastName) {
+  const response = await fetch(`${backendURL}ghl/contacts/createNew`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ email: email, firstName: firstName, lastName: lastName })
+  })
+  const data = await response.json();
+
+  if (data.contact !== null) {
+    console.log("👤 New customer created for " + firstName + " " + lastName + " with email " + email);
+  } else {
+    console.log("❌ Error creating new customer");
+  }
+}
 
 function getPricePerSqFt(area) {
 
@@ -301,7 +333,7 @@ function calculateQuote(projectType, area, irrigationPrice, slopePrice) {
 
 //Handles showing the output of the quote
 function showQuote() {
-  console.log("step " + currentStep + " of " + finalStep);
+  console.log("⏭️ Step " + currentStep + " of " + finalStep);
 
   if (currentStep === finalStep) {
     console.log("✅ Showing quote");
