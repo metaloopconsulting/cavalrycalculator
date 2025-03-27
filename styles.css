@@ -314,6 +314,7 @@ button {
 }
 
 .buy-button {
+  color: white;
   display: flex;          /* Makes buttons appear side by side */
   justify-content: center; /* Centers the buttons */
   gap: 15px;             /* Adds spacing between buttons */
