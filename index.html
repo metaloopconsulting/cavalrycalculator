@@ -159,11 +159,8 @@
         <div class="quote-card" id="step-6">
           <h2>Pay your quote fee to see your quote now</h2>
 
-          <div class="stripe-buy-button">
-            <stripe-buy-button buy-button-id="buy_btn_1R4W9vDG9lmlaVn1vFZ6iPoi"
-              publishable-key="pk_test_51QtdGZDG9lmlaVn1QVrgLWaZ4zjdZDRubSk2BvzN4Zo2vxSwP8DsTecdPSeXARFDfGN2iKMDQchSw4W4ALqC8a90004GkjQCnw"
-              onload="window.close()">
-            </stripe-buy-button>
+          <div class="button-container">
+            <button id="buy-button" class="buy-button">Pay Quote Fee</button>
           </div>
 
           <!-- TEMP -->
@@ -202,7 +199,6 @@
 
   <!-- Link your JavaScript file -->
   <script src="script.js"></script>
-  <script async src="https://js.stripe.com/v3/buy-button.js"></script>
   <script type="module" src="config.js"></script>
 
 

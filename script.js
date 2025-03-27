@@ -63,40 +63,51 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
 
+  //Listener for the buy button
+  const buyButton = document.getElementById('buy-button');
+
+  buyButton.addEventListener('click', async function (event) {
+    event.preventDefault(); // Prevent default form validation behavior
+    const email = document.getElementById('email').value;
+  
+    try {
+      const session = await startCheckoutSession(email);
+      if (session && session.url) {
+        console.log("🟢 Redirecting to Stripe checkout...");
+        window.location.href = session.url; // or use window.open if you prefer
+      } else {
+        console.error("❌ Stripe session returned without a URL");
+      }
+    } catch (err) {
+      console.error("❌ Error starting Stripe session:", err);
+    }
+  });
+  
 
   //Navigation between steps
-
-  const form = document.getElementById("quoteForm");
-  const buttonsContainer = document.querySelector(".quote-container");
-
-  // Track the current step
-  //let currentStep = 1;
   const totalSteps = finalStep
 
   //Update steps tracker
   updateSteps();
 
   // Next Button Click Event
-  buttonsContainer.addEventListener("click", function (event) {
-    if (event.target.classList.contains("next-btn")) {
+  const nextButtons = document.querySelectorAll(".next-btn");
+  nextButtons.forEach(btn => {
+    btn.addEventListener("click", function (event) {
       event.preventDefault(); // Prevent default form validation behavior
-      let step = parseInt(event.target.dataset.step);
+      let step = parseInt(this.dataset.step);
       nextStep(step);
-    }
+    });
+  });
 
-    if (event.target.classList.contains("prev-btn")) {
-      event.preventDefault();
-      let step = parseInt(event.target.dataset.step);
+  // Previous Button Click Event
+  const prevButtons = document.querySelectorAll(".prev-btn");
+  prevButtons.forEach(btn => {
+    btn.addEventListener("click", function (event) {
+      event.preventDefault(); // Prevent default form validation behavior
+      let step = parseInt(this.dataset.step);
       prevStep(step);
-    }
-
-    if (event.target.classList.contains("submit-btn")) {
-      event.preventDefault();
-      let step = parseInt(event.target.dataset.step);
-      nextStep(step); // Moves to the last step
-      //setTimeout(showQuote, 300); // Delay to ensure UI updates before calculating quote
-    }
-    ;
+    });
   });
 
   //Project Type Selection Update Min and Max Values Function
@@ -183,8 +194,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
     currentStep++;
     updateProgressBar();
-    showQuote();
 
+    if (currentStep === finalStep) {
+      showQuote();
+    }
 
   }
 
@@ -253,6 +266,37 @@ document.addEventListener("DOMContentLoaded", function () {
     slider.style.background = `linear-gradient(to right,rgb(0, 62, 95) ${percentage}%, #ddd ${percentage}%)`;
   }
 });
+
+//Backend function to start a checkout session
+async function startCheckoutSession(email) {
+  console.log("⌛ Starting checkout session...");
+  const response = await fetch(`${backendURL}stripe/create-checkout-session`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ email: email })
+  });
+
+  if (!response.ok) {
+    console.error(`❌ Error starting checkout session: ${response.status} ${response.statusText}`);
+    return null;
+  }
+  const contentType = response.headers.get("Content-Type");
+  if (contentType && contentType.includes("application/json")) {
+    const data = await response.json();
+
+    if (data.id) {
+      console.log("🛒 Checkout session started");
+      return data;
+    } else {
+      console.log("❌ Error: Invalid response data");
+      return null;
+    }
+  } else {
+    throw new Error("Response is not JSON");
+  }
+}
 
 //Backend function to check for existing email
 async function checkEmail(email) {
@@ -333,7 +377,7 @@ function calculateQuote(projectType, area, irrigationPrice, slopePrice) {
 
 //Handles showing the output of the quote
 function showQuote() {
-  console.log("⏭️ Step " + currentStep + " of " + finalStep);
+  
 
   if (currentStep === finalStep) {
     console.log("✅ Showing quote");

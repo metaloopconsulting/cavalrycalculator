@@ -313,12 +313,14 @@ button {
   padding: 10px 30px
 }
 
-.stripe-buy-button {
+.buy-button {
   display: flex;          /* Makes buttons appear side by side */
   justify-content: center; /* Centers the buttons */
   gap: 15px;             /* Adds spacing between buttons */
   margin-top: 50px;
   margin-bottom: 15px;      /* Adds spacing above */
+  background-color: var(--primary-color);
+  padding: 10px 30px;
 }
 
 a {
