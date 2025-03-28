@@ -79,7 +79,7 @@
             <div>
               <label for="width">Width (ft): <span id="widthDisplay">10</span></label>
               <input type="range" id="widthValue" name="width" value="10" min="10" max="60" required
-              oninput="document.getElementById('widthDisplay').innerText = this.value">
+                oninput="document.getElementById('widthDisplay').innerText = this.value">
             </div>
 
           </div>
@@ -143,9 +143,11 @@
 
         <div class="quote-card" id="step-5">
           <h2>Let's get your info so we can send the quote over</h2>
-          <input type="text" id="firstName" name="firstName" placeholder="First Name" required>
-          <input type="text" id="lastName" name="lastName" placeholder="Last Name" required>
-          <input type="email" id="email" name="email" placeholder="Email" required>
+          <div class="input-container">
+            <input type="text" id="firstName" name="firstName" placeholder="First Name" required>
+            <input type="text" id="lastName" name="lastName" placeholder="Last Name" required>
+            <input type="email" id="email" name="email" placeholder="Email" required>
+          </div>
 
           <div class="button-container">
 
