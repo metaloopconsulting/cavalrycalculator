@@ -23,6 +23,14 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
+  //Listeners for the buttons on the project selection
+  const trashCanPadButtons = document.querySelectorAll('#trashcanpad-button');
+  trashCanPadButtons.forEach(btn => {
+    btn.addEventListener('click', function () {
+      selectTrashCanType(this.dataset.value);
+    });
+  });
+
   //Listeners for the buttons on the irrigation selection
   const irrigationButtons = document.querySelectorAll('#irrigation-button');
   irrigationButtons.forEach(btn => {
@@ -47,13 +55,14 @@ document.addEventListener("DOMContentLoaded", function () {
     const firstName = document.getElementById('firstName').value;
     const lastName = document.getElementById('lastName').value;
     const email = document.getElementById('email').value;
+    const projectDetails = getProjectDetails().projectDetails;
 
     if (firstName && lastName && email) {
 
-      const existingEmail = await checkEmail(email);
+      const existingEmail = await checkEmail(email.toLowerCase());
 
       if (existingEmail === false) {
-        await createCustomer(email, firstName, lastName);
+        await createCustomer(email, firstName, lastName, projectDetails);
       }
 
     } else {
@@ -69,9 +78,9 @@ document.addEventListener("DOMContentLoaded", function () {
   buyButton.addEventListener('click', async function (event) {
     event.preventDefault(); // Prevent default form validation behavior
     const email = document.getElementById('email').value;
-  
+
     try {
-      const session = await startCheckoutSession(email);
+      const session = await startCheckoutSession(email.toLowerCase());
       if (session && session.url) {
         console.log("🟢 Redirecting to Stripe checkout...");
         window.location.href = session.url; // or use window.open if you prefer
@@ -82,7 +91,7 @@ document.addEventListener("DOMContentLoaded", function () {
       console.error("❌ Error starting Stripe session:", err);
     }
   });
-  
+
 
   //Navigation between steps
   const totalSteps = finalStep
@@ -221,7 +230,28 @@ document.addEventListener("DOMContentLoaded", function () {
     const buttons = document.querySelectorAll('.option-btn');
     buttons.forEach(btn => btn.classList.remove('selected'));
     document.querySelector(`.option-btn[data-value="${value}"]`).classList.add('selected');
+
+    // Update which container should be visible based on project type
+    const projectType = document.getElementById('projectType').value;
+    if (projectType === 'trash_can_pad') {
+      document.getElementById('trashcanpad-options').style.display = 'flex';
+      document.getElementById('range-container').style.display = 'none';
+      //Set the trashcanpad type to required
+      document.getElementById('trashCanPadType').setAttribute('required', 'required');
+    } else {
+      document.getElementById('range-container').style.display = 'block';
+      document.getElementById('trashcanpad-options').style.display = 'none';
+    }
     setTimeout(() => nextStep(1), 300);
+  }
+
+  //Function for buttons on trash can pad selection
+  function selectTrashCanType(value) {
+    document.getElementById('trashCanPadType').value = value;
+    const buttons = document.querySelectorAll('.option-btn');
+    buttons.forEach(btn => btn.classList.remove('selected'));
+    document.querySelector(`.option-btn[data-value="${value}"]`).classList.add('selected');
+    setTimeout(() => nextStep(2), 300);
   }
 
   //Function for buttons on irrigation selection
@@ -275,7 +305,7 @@ async function startCheckoutSession(email) {
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({ email: email })
+    body: JSON.stringify({ email: email.toLowerCase() })
   });
 
   if (!response.ok) {
@@ -321,13 +351,13 @@ async function checkEmail(email) {
 }
 
 //Backend function to create a new customer
-async function createCustomer(email, firstName, lastName) {
+async function createCustomer(email, firstName, lastName, projectDetails) {
   const response = await fetch(`${backendURL}ghl/contacts/createNew`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({ email: email, firstName: firstName, lastName: lastName })
+    body: JSON.stringify({ email: email.toLowerCase(), firstName: firstName, lastName: lastName, projectDetails: projectDetails })
   })
   const data = await response.json();
 
@@ -355,106 +385,176 @@ function getPricePerSqFt(area) {
 
 function calculateQuote(projectType, area, irrigationPrice, slopePrice) {
 
-  let basePricePerSqFt = getPricePerSqFt(area);
-  let baseCost = (basePricePerSqFt * area);
+  let baseCost = 0;
+  let basePricePerSqFt = 0;
   let customerCost = 0;
 
-  const margin = calculatorMargin;
 
-  customerCost = baseCost * (1 + margin);
-  customerCost += irrigationPrice + slopePrice;
+  //Calculate price based on project type
+  if (projectType === "trash_can_pad") {
 
-  //Minimum price for things not trash can pad
-  if (projectType === "trashcanpad") {
-    customerCost = customerCost
+    projectType = "trashcanpad";
+    trasnCanPadType = document.getElementById("trashCanPadType").value;
+    if (trasnCanPadType === "2") {
+      baseCost = 700;
+    } else if (trasnCanPadType === "3") {
+      baseCost = 750;
+    }
+
+    customerCost = baseCost + irrigationPrice + slopePrice;
+    customerCost = customerCost * (1 + calculatorMargin);
+
+    return customerCost;
+
+  } else {
+
+    basePricePerSqFt = getPricePerSqFt(area);
+    baseCost = (basePricePerSqFt * area);
+    customerCost = 0;
+
+
+
+    customerCost = baseCost * (1 + calculatorMargin);
+    customerCost += irrigationPrice + slopePrice;
+
+    //Minimum price for things not trash can pad
+    if (projectType === "trashcanpad") {
+      customerCost = customerCost
+    }
+    else if (customerCost < 2600) {
+      customerCost = 2600;
+    }
+
+    return customerCost;
   }
-  else if (customerCost < 2600) {
-    customerCost = 2600;
-  }
 
-  return customerCost;
 }
 
-//Handles showing the output of the quote
-function showQuote() {
+//Function to give project details
+function getProjectDetails() {
+
+  // Get the values from the form
+  const projectType = document.getElementById("projectType").value;
+  const length = parseFloat(document.getElementById("lengthValue").value);
+  const width = parseFloat(document.getElementById("widthValue").value);
+  const irrigationValue = document.getElementById("irrigationType").value;
+  const slopeValue = document.getElementById("slopeType").value;
+  const trashCanPadValue = document.getElementById("trashCanPadType").value;
+  const area = length * width;
   
 
-  if (currentStep === finalStep) {
-    console.log("✅ Showing quote");
+  // Calculate irrigation price
+  if (irrigationValue === "none") {
+    irrigationPrice = 0;
+  } else if (irrigationValue === "capped") {
+    irrigationPrice = 50;
+  } else if (irrigationValue === "rerouted") {
+    irrigationPrice = 100;
+  }
 
-    let finalStepElement = document.getElementById(`step-${finalStep}`);
-    if (finalStepElement) {
-      finalStepElement.classList.add("active");
-      finalStepElement.style.display = "block";
-    } else {
-      console.error("❌ Final step element not found.");
-    }
+  // Calculate slope price
+  let slopePrice = 0;
 
-    const quoteOutput = document.getElementById("quoteOutput");
-    if (!quoteOutput) {
-      console.error("❌ Error: #quoteOutput not found in the DOM.");
-      return;
-    }
+  if (slopeValue === "none") {
+    slopePrice = 0;
+  } else if (slopeValue === "slight") {
+    slopePrice = 100;
+  } else if (slopeValue === "moderate") {
+    slopePrice = 200;
+  } else if (slopeValue === "high") {
+    slopePrice = 300;
+  } else {
+    slopeCost = 0;
+  }
 
-    // Calculate irrigation price
-    let irrigationPrice = 0;
-    let irrigationValue = document.getElementById("irrigationType").value;
+  //Project type description
+  let projectTypeDesc = "Unknown Project Type";
 
-    if (irrigationValue === "none") {
-      irrigationPrice = 0;
-    } else if (irrigationValue === "capped") {
-      irrigationPrice = 50;
-    } else if (irrigationValue === "rerouted") {
-      irrigationPrice = 100;
-    }
+  if (projectType === "walkway") {
+    projectTypeDesc = "Walkway";
+  }
+  else if (projectType === "patio") {
+    projectTypeDesc = "Patio";
+  }
+  else if (projectType === "trash_can_pad") {
+    projectTypeDesc = "Trash Can Pad";
+  }
+  else if (projectType === "driveway") {
+    projectTypeDesc = "Driveway Extension";
+  }
 
-    // Calculate slope price
-    let slopePrice = 0;
-    let slopeValue = document.getElementById("slopeType").value;
+  
+  const quoteValue = calculateQuote(projectType, area, irrigationPrice, slopePrice);
+  const customerPricePerSqFt = (quoteValue - (irrigationPrice + slopePrice)) / area;
 
-    if (slopeValue === "none") {
-      slopePrice = 0;
-    } else if (slopeValue === "slight") {
-      slopePrice = 100;
-    } else if (slopeValue === "moderate") {
-      slopePrice = 200;
-    } else if (slopeValue === "high") {
-      slopePrice = 300;
-    } else {
-      slopeCost = 0;
-    }
+  return {
+    projectDetails: {
+      projectType: projectType,
+      projectTypeDesc: projectTypeDesc,
+      length: length,
+      width: width,
+      area: area,
+      irrigationType: irrigationValue,
+      irrigationPrice: irrigationPrice,
+      slopeType: slopeValue,
+      slopePrice: slopePrice,
+      trashCanPadType: trashCanPadValue,
+      quote: quoteValue,
+    },
+  }
 
+}
 
-
-
-    // Get the values from the form
-    const projectType = document.getElementById("projectType").value;
-    const length = parseFloat(document.getElementById("lengthValue").value);
-    const width = parseFloat(document.getElementById("widthValue").value);
-    const area = length * width;
-    const quote = calculateQuote(projectType, area, irrigationPrice, slopePrice);
-    const customerPricePerSqFt = (quote - (irrigationPrice + slopePrice)) / area;
+  //Handles showing the output of the quote
+  function showQuote() {
 
 
-    // Your existing quote calculation logic
-    document.getElementById('quoteOutput').innerHTML = `
+    if (currentStep === finalStep) {
+      console.log("✅ Showing quote");
+
+      let finalStepElement = document.getElementById(`step-${finalStep}`);
+      if (finalStepElement) {
+        finalStepElement.classList.add("active");
+        finalStepElement.style.display = "block";
+      } else {
+        console.error("❌ Final step element not found.");
+      }
+
+      const quoteOutput = document.getElementById("quoteOutput");
+      if (!quoteOutput) {
+        console.error("❌ Error: #quoteOutput not found in the DOM.");
+        return;
+      }
+
+      const quoteDetails = getProjectDetails().projectDetails;
+
+
+      const quote = calculateQuote(quoteDetails.projectType, quoteDetails.area, quoteDetails.irrigationPrice, quoteDetails.slopePrice);
+      const customerPricePerSqFt = (quote - (quoteDetails.irrigationPrice + quoteDetails.slopePrice)) / quoteDetails.area;
+
+      //Project type description
+      let projectTypeDesc = quoteDetails.projectTypeDesc;
+
+      // Your existing quote calculation logic
+      document.getElementById('quoteOutput').innerHTML = `
       <div class="invoice-container">
         <h2>Quote Summary</h2>
         <table class="invoice-table">
-          <tr><td><strong>Total Sq Ft:</strong></td><td>${area.toFixed(2)} sq ft</td></tr>
+          <tr><td><strong>Project Type:</strong></td><td>${projectTypeDesc}</td></tr>
+          <tr><td><strong>Total Sq Ft:</strong></td><td>${quoteDetails.area} sq ft</td></tr>
           <tr><td><strong>Price Per Sq Ft:</strong></td><td>${customerPricePerSqFt.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</td></tr>
-          <tr><td><strong>Irrigation Adjustment Price:</strong></td><td>${irrigationPrice.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</td></tr>
-          <tr><td><strong>Slope Adjustment Price:</strong></td><td>${slopePrice.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</td></tr>
+          <tr><td><strong>Irrigation Adjustment Price:</strong></td><td>${quoteDetails.irrigationPrice.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</td></tr>
+          <tr><td><strong>Slope Adjustment Price:</strong></td><td>${quoteDetails.slopePrice.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</td></tr>
         </table>
 
         <div class="total-amount">
           <p>Total Estimate:</p>
-          <p class="total-price">${quote.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</p>
+          <p class="total-price">${quoteDetails.quote.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</p>
         </div>
       </div>
     `;
 
-    quoteOutput.style.display = "block"; // Ensure it's visible
+      quoteOutput.style.display = "block"; // Ensure it's visible
+    }
   }
-}
 

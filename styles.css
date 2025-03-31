@@ -124,6 +124,7 @@ h2 {
 p {
   font-size: var(--p-size);
   margin-bottom: 20px;
+  text-align: center;
 }
 
 .quote-wrapper {

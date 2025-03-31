@@ -66,9 +66,23 @@
 
 
         <div class="quote-card" id="step-2">
-          <h2>What are the dimensions of the area?</h2>
+          
 
-          <div class="range-container">
+          <div class="button-options" id="trashcanpad-options">
+            <h2>What size trash can pad?</h2>
+            
+              <button type="button" class="option-btn" id="trashcanpad-button" data-value="2">2 Cans</button>
+              <button type="button" class="option-btn" id="trashcanpad-button" data-value="3">3 Cans</button>
+            
+
+          </div>
+
+          <!-- Hidden input to store selected project type -->
+          <input type="hidden" id="trashCanPadType" name="trashCanPadType">
+
+          <div class="range-container" id="range-container">
+
+            <h2>What are the dimensions of the area?</h2>
 
             <!-- Input for Length -->
             <label for="length">Length (ft): <span id="lengthDisplay">10</span></label>
@@ -160,6 +174,8 @@
 
         <div class="quote-card" id="step-6">
           <h2>One last step to reveal your price</h2>
+          <p>We charge a small $5.00 fee to generate your quote. This is a one-time fee and we will email your $100 off
+            coupon for this project immediately after payment.</p>
 
           <div class="button-container">
             <button id="buy-button" class="buy-button">Pay Quote Fee</button>
