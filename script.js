@@ -143,6 +143,11 @@ document.addEventListener("DOMContentLoaded", function () {
       lengthSlider.max = 10;
       widthSlider.min = 3;
       widthSlider.max = 10;
+    } else if (projectType === 'driveway') {
+      lengthSlider.min = 18;
+      lengthSlider.max = 30;
+      widthSlider.min = 10;
+      widthSlider.max = 25;
     }
 
     // Reset slider values and displays
@@ -293,7 +298,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const percentage = ((value - min) / (max - min)) * 100;
 
     // Apply gradient background
-    slider.style.background = `linear-gradient(to right,rgb(0, 62, 95) ${percentage}%, #ddd ${percentage}%)`;
+    slider.style.background = `linear-gradient(to right,rgb(139, 113, 0) ${percentage}%, #ddd ${percentage}%)`;
   }
 });
 
@@ -441,7 +446,7 @@ function getProjectDetails() {
   const slopeValue = document.getElementById("slopeType").value;
   const trashCanPadValue = document.getElementById("trashCanPadType").value;
   const area = length * width;
-  
+
 
   // Calculate irrigation price
   if (irrigationValue === "none") {
@@ -483,7 +488,7 @@ function getProjectDetails() {
     projectTypeDesc = "Driveway Extension";
   }
 
-  
+
   const quoteValue = calculateQuote(projectType, area, irrigationPrice, slopePrice);
   const customerPricePerSqFt = (quoteValue - (irrigationPrice + slopePrice)) / area;
 
@@ -505,38 +510,38 @@ function getProjectDetails() {
 
 }
 
-  //Handles showing the output of the quote
-  function showQuote() {
+//Handles showing the output of the quote
+function showQuote() {
 
 
-    if (currentStep === finalStep) {
-      console.log("✅ Showing quote");
+  if (currentStep === finalStep) {
+    console.log("✅ Showing quote");
 
-      let finalStepElement = document.getElementById(`step-${finalStep}`);
-      if (finalStepElement) {
-        finalStepElement.classList.add("active");
-        finalStepElement.style.display = "block";
-      } else {
-        console.error("❌ Final step element not found.");
-      }
+    let finalStepElement = document.getElementById(`step-${finalStep}`);
+    if (finalStepElement) {
+      finalStepElement.classList.add("active");
+      finalStepElement.style.display = "block";
+    } else {
+      console.error("❌ Final step element not found.");
+    }
 
-      const quoteOutput = document.getElementById("quoteOutput");
-      if (!quoteOutput) {
-        console.error("❌ Error: #quoteOutput not found in the DOM.");
-        return;
-      }
+    const quoteOutput = document.getElementById("quoteOutput");
+    if (!quoteOutput) {
+      console.error("❌ Error: #quoteOutput not found in the DOM.");
+      return;
+    }
 
-      const quoteDetails = getProjectDetails().projectDetails;
+    const quoteDetails = getProjectDetails().projectDetails;
 
 
-      const quote = calculateQuote(quoteDetails.projectType, quoteDetails.area, quoteDetails.irrigationPrice, quoteDetails.slopePrice);
-      const customerPricePerSqFt = (quote - (quoteDetails.irrigationPrice + quoteDetails.slopePrice)) / quoteDetails.area;
+    const quote = calculateQuote(quoteDetails.projectType, quoteDetails.area, quoteDetails.irrigationPrice, quoteDetails.slopePrice);
+    const customerPricePerSqFt = (quote - (quoteDetails.irrigationPrice + quoteDetails.slopePrice)) / quoteDetails.area;
 
-      //Project type description
-      let projectTypeDesc = quoteDetails.projectTypeDesc;
+    //Project type description
+    let projectTypeDesc = quoteDetails.projectTypeDesc;
 
-      // Your existing quote calculation logic
-      document.getElementById('quoteOutput').innerHTML = `
+    // Your existing quote calculation logic
+    document.getElementById('quoteOutput').innerHTML = `
       <div class="invoice-container">
         <h2>Quote Summary</h2>
         <table class="invoice-table">
@@ -554,7 +559,7 @@ function getProjectDetails() {
       </div>
     `;
 
-      quoteOutput.style.display = "block"; // Ensure it's visible
-    }
+    quoteOutput.style.display = "block"; // Ensure it's visible
   }
+}
 

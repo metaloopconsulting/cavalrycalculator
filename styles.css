@@ -11,10 +11,10 @@
   --h2-size: calc(var(--base-font-size) * var(--font-scale-major-third));
   --p-size: var(--base-font-size);
   
-  --primary-color: #0077b6;
-  --secondary-color: #f8f9fa;
+  --primary-color: #d49c00;
+  --secondary-color: #f7f7f7ec;
   --input-border-color: #d1d1d1;
-  --shadow-color: rgba(0, 0, 0, 0.1);
+  --shadow-color: rgba(0, 0, 0, 0.12);
 }
 
 * {
@@ -136,8 +136,8 @@ p {
 }
 
 .quote-container {
-  width: 95%;
-  max-width: 800px;
+  width: 98%;
+  max-width: 900px;
   overflow: hidden;
   position: relative;
   margin: auto;
@@ -182,7 +182,7 @@ label {
   flex-direction: column;
   gap: 20px;
   width: 80%;
-  max-width: 500px;
+  max-width: 600px;
   margin: 0 auto; /* Center the container itself */
 }
 
@@ -192,18 +192,19 @@ label {
   background-color: #f9f9f9;
   cursor: pointer;
   text-align: middle;
+  color:#2c2c2c
 }
 
 .option-btn.selected {
   background-color: var(--primary-color);
   color: #fff;
-  border-color: #0056b3;
+  border-color:  var(--primary-color);
 }
 
 .option-btn:hover {
   background-color: var(--primary-color);
   color: #fff;
-  border-color: #0056b3;
+  border-color: var(--primary-color);
 }
 
 .range-container {
@@ -273,7 +274,7 @@ input[type="range"]::-webkit-slider-thumb {
   appearance: none;
   width: 40px; /* Make it larger for mobile users */
   height: 40px;
-  background: #0077b6; /* Blue color */
+  background: var(--primary-color); /* Blue color */
   border-radius: 50%;
   cursor: pointer;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
