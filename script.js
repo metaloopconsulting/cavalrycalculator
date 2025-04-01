@@ -298,7 +298,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const percentage = ((value - min) / (max - min)) * 100;
 
     // Apply gradient background
-    slider.style.background = `linear-gradient(to right,rgb(139, 113, 0) ${percentage}%, #ddd ${percentage}%)`;
+    slider.style.background = `linear-gradient(to right,rgb(70, 70, 70) ${percentage}%, #ddd ${percentage}%)`;
   }
 });
 
