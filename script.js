@@ -64,6 +64,9 @@ document.addEventListener("DOMContentLoaded", function () {
       if (existingEmail === false) {
         await createCustomer(email, firstName, lastName, projectDetails);
       }
+      else {
+        await updateContact(email.toLowerCase(), projectDetails);
+      }
 
     } else {
       alert("Please fill out all required fields before continuing.");
@@ -370,6 +373,24 @@ async function createCustomer(email, firstName, lastName, projectDetails) {
     console.log("👤 New customer created for " + firstName + " " + lastName + " with email " + email);
   } else {
     console.log("❌ Error creating new customer");
+  }
+}
+
+//Backend function to update contact
+async function updateContact(email, projectDetails) {
+  const response = await fetch(`${backendURL}ghl/contacts/updateContact`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ email: email.toLowerCase(), projectDetails: projectDetails })
+  })
+  const data = await response.json();
+  if (data.contact !== null) {
+    console.log("👤 Contact updated for " + email)
+
+  } else {
+    console.log("❌ Error updating contact");
   }
 }
 
