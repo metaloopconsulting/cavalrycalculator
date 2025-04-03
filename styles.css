@@ -11,7 +11,7 @@
   --h2-size: calc(var(--base-font-size) * var(--font-scale-major-third));
   --p-size: var(--base-font-size);
   
-  --primary-color: #d49c00;
+  --primary-color: goldenrod; /* #DAA520 */
   --secondary-color: #f7f7f7ec;
   --input-border-color: #d1d1d1;
   --shadow-color: rgba(0, 0, 0, 0.12);
@@ -98,7 +98,7 @@ body {
 
 /* Progress Fill Bar */
 .progress-bar {
-  width: 5%; /* Starts empty */
+  width: 1%; /* Starts empty */
   height: 100%;
   background: var(--primary-color); /* Blue progress color */
   transition: width 0.5s ease-in-out; /* Smooth animation */
@@ -210,10 +210,11 @@ label {
 .range-container {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 40px;
   width: 100%;
-  max-width: 500px;
+  max-width: 600px;
   margin: 0 auto; /* Center the container itself */
+  padding: 20px;
 }
 
 /* Ensure select dropdown align properly */
@@ -264,9 +265,11 @@ input[type="range"] {
   background: #ddd; /* Light background */
   border-radius: 6px;
   outline: none;
-  margin: 15px auto; /* Centers the range input */
+  margin: 20px auto; /* Centers the range input */
   transition: (--secondary-color) 0.3s ease-in-out;
+  padding: 5px 0; /* Adds space for the thumb */
 }
+
 
 /* Styling the Slider Thumb (Handle) for WebKit Browsers (Chrome, Safari) */
 input[type="range"]::-webkit-slider-thumb {

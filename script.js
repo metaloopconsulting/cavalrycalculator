@@ -1,5 +1,5 @@
 //Navigation between steps
-let currentStep = 1; // Track the current step
+let currentStep = 0; // Track the current step
 let finalStep = 6; // The final step
 let calculatorMargin = 0.2; // Margin for the calculator
 let backendURL = `https://cavalrycalculator-backend-production.up.railway.app/`;
