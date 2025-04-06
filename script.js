@@ -63,6 +63,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
       if (existingEmail === false) {
         await createCustomer(email, firstName, lastName, projectDetails);
+
+        // wait for the customer to be created before creating the opportunity
+        await new Promise(resolve => setTimeout(resolve, 5000)); // Wait for 5 seconds
+
         await createOpportunity(email.toLowerCase());
       }
       else {
