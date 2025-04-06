@@ -63,6 +63,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       if (existingEmail === false) {
         await createCustomer(email, firstName, lastName, projectDetails);
+        await createOpportunity(email.toLowerCase());
       }
       else {
         await updateContact(email.toLowerCase(), projectDetails);
@@ -355,6 +356,24 @@ async function checkEmail(email) {
   } else {
     console.log("📧 Email found in GHL");
     return true;
+  }
+}
+
+//Backend function to create a new opportunity for unpaid quote
+async function createOpportunity(email) {
+  const response = await fetch(`${backendURL}ghl/opportunities/createUnpaid`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ email: email.toLowerCase()})
+  })
+  const data = await response.json();
+
+  if (data.opportunity !== null) {
+    console.log("🟢 New opportunity created for " + email);
+  } else {
+    console.log("❌ Error creating new opportunity");
   }
 }
 
