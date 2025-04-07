@@ -255,6 +255,8 @@ document.addEventListener("DOMContentLoaded", function () {
     } else {
       document.getElementById('range-container').style.display = 'block';
       document.getElementById('trashcanpad-options').style.display = 'none';
+      //Set the trashcanpad type to  not required
+      document.getElementById('trashCanPadType').removeAttribute('required');
     }
     setTimeout(() => nextStep(1), 300);
   }
@@ -443,7 +445,6 @@ function calculateQuote(projectType, area, irrigationPrice, slopePrice) {
   //Calculate price based on project type
   if (projectType === "trash_can_pad") {
 
-    projectType = "trashcanpad";
     trasnCanPadType = document.getElementById("trashCanPadType").value;
     if (trasnCanPadType === "2") {
       baseCost = 700;
@@ -468,7 +469,7 @@ function calculateQuote(projectType, area, irrigationPrice, slopePrice) {
     customerCost += irrigationPrice + slopePrice;
 
     //Minimum price for things not trash can pad
-    if (projectType === "trashcanpad") {
+    if (projectType === "trash_can_pad") {
       customerCost = customerCost
     }
     else if (customerCost < 2600) {
@@ -531,6 +532,19 @@ function getProjectDetails() {
   }
   else if (projectType === "driveway") {
     projectTypeDesc = "Driveway Extension";
+  }
+
+  //Trash can pad type area override
+  if (projectType === "trash_can_pad") {
+    if (trashCanPadValue === "2") {
+      area = 4 * 4;
+      length = 4;
+      width = 4;
+    } else if (trashCanPadValue === "3") {
+      area = 6 * 6;
+      length = 6;
+      width = 6;
+    }
   }
 
 
