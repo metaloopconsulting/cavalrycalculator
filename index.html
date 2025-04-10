@@ -188,23 +188,65 @@
 
 
         <div class="quote-card" id="step-6">
-          <h2>One last step to reveal your price</h2>
-          <p>We charge a small $5.00 fee to generate your quote. This is a one-time fee and we will email your $100 off
-            coupon for this project immediately after payment.</p>
 
-          <div class="button-container">
-            <button id="buy-button" class="buy-button">Pay Quote Fee</button>
+          <!-- Loading Sequence in Table Format -->
+          <div id="loading-sequence" class="loading-sequence">
+            <div class="loading-header" id="loading-header">
+              <h2>Almost there!</h2>
+              <p style="font-size: 16px;">We are processing your quote. This may take a few moments.</p>
+            </div>
+            <table class="loading-table">
+              <tr>
+                <td>
+                  <div class="spinner" id="checkingEmail"></div>
+                </td>
+                <td>
+                  <div>Validating your email</div></td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="spinner" id="creatingProfile"></div>
+                </td>
+                <td>
+                  <div>Creating profile</div></td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="spinner" id="processingQuote"></div>
+                </td>
+                <td>Calculating quote</td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="spinner" id="wrappingUpQuote"></div>
+                </td>
+                <td>Wrapping up quote</td>
+              </tr>
+            
+            </table>
+
           </div>
 
-          <!-- TEMP 
-          <div class="quoteOutput" id="quoteOutput"></div>
-          
-          -->
-          <div class="button-container">
-            <button class="prev-btn" data-step="6">Back</button>
+
+          <div class="info-container" id="info-container" style="display: none;">
+
+            <h2>One last step to reveal your price</h2>
+            <p style="font-size: 16px;">We charge a small $5.00 fee to generate your quote. This is a one-time fee and we will email your $100
+              off
+              coupon for this project immediately after payment.</p>
+
+            <div class="button-container">
+              <button id="buy-button" class="buy-button">Pay Quote Fee</button>
+            </div>
+
+            
           </div>
 
         </div>
+
+
+
+
 
 
 

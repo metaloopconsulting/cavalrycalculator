@@ -60,18 +60,26 @@ document.addEventListener("DOMContentLoaded", function () {
     if (firstName && lastName && email) {
 
       const existingEmail = await checkEmail(email.toLowerCase());
+      markStepComplete('checkingEmail')
 
       if (existingEmail === false) {
         await createCustomer(email, firstName, lastName, projectDetails);
+        markStepComplete('creatingProfile')
 
         //Wait 10 seconds for the customer to be created before creating the opportunity
         console.log("⌛ Waiting for customer to be created...");
-        await new Promise(resolve => setTimeout(resolve, 10000));
+        await new Promise(resolve => setTimeout(resolve, 5000));
 
         await createOpportunity(email.toLowerCase());
+        markStepComplete('wrappingUpQuote')
       }
       else {
+
         await updateContact(email.toLowerCase(), projectDetails);
+        markStepComplete('creatingProfile')
+
+        await createOpportunity(email.toLowerCase());
+        markStepComplete('wrappingUpQuote')
       }
 
     } else {
@@ -102,11 +110,10 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
 
-  //Navigation between steps
-  const totalSteps = finalStep
-
   //Update steps tracker
   updateSteps();
+
+  updateProgressBar();
 
   // Next Button Click Event
   const nextButtons = document.querySelectorAll(".next-btn");
@@ -128,167 +135,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-  //Project Type Selection Update Min and Max Values Function
-  function updateMinMaxValues() {
-    const projectType = document.getElementById('projectType').value;
-    const lengthSlider = document.getElementById('lengthValue');
-    const widthSlider = document.getElementById('widthValue');
-    const lengthDisplay = document.getElementById('lengthDisplay');
-    const widthDisplay = document.getElementById('widthDisplay');
-
-
-    if (projectType === 'walkway') {
-      lengthSlider.min = 10;
-      lengthSlider.max = 50;
-      widthSlider.min = 4;
-      widthSlider.max = 6;
-    } else if (projectType === 'patio') {
-      lengthSlider.min = 5;
-      lengthSlider.max = 20;
-      widthSlider.min = 5;
-      widthSlider.max = 20;
-    } else if (projectType === 'trash_can_pad') {
-      lengthSlider.min = 3;
-      lengthSlider.max = 10;
-      widthSlider.min = 3;
-      widthSlider.max = 10;
-    } else if (projectType === 'driveway') {
-      lengthSlider.min = 18;
-      lengthSlider.max = 30;
-      widthSlider.min = 10;
-      widthSlider.max = 25;
-    }
-
-    // Reset slider values and displays
-    lengthSlider.value = lengthSlider.min;
-    widthSlider.value = widthSlider.min;
-    lengthDisplay.innerText = lengthSlider.value;
-    widthDisplay.innerText = widthSlider.value;
-  };
-
-  //Progress bar functions
-
-  function updateProgressBar() {
-    const progressBar = document.getElementById(`progress-bar`);
-    const totalSteps = finalStep;
-    const progress = ((currentStep) / (totalSteps)) * 100;
-
-    progressBar.style.width = `${progress}%`;
-
-    updateSteps();
-
-    //console.log(`✅ Progress updated: ${progress}%`);
-  }
-
-  function updateSteps() {
-    const currentStepElement = document.getElementById(`step`);
-    currentStepElement.innerHTML = currentStep;
-    const totalStepsElement = document.getElementById(`totalSteps`);
-    totalStepsElement.innerHTML = totalSteps;
-  }
-
-  // Function to Validate and Move to Next Step
-  function nextStep(step) {
-    let currentCard = document.getElementById(`step-${step}`);
-    let nextCard = document.getElementById(`step-${step + 1}`);
-
-    // Validate only inputs inside the current step
-    let inputs = currentCard.querySelectorAll("input[required], select[required]");
-    let isValid = true;
-
-    inputs.forEach(input => {
-      if (!input.value.trim()) {
-        input.classList.add("input-error");
-        isValid = false;
-      } else {
-        input.classList.remove("input-error");
-      }
-    });
-
-    if (!isValid) {
-      alert("Please fill out all required fields before continuing.");
-      return;
-    }
-
-    // Hide current step and show the next step
-    currentCard.classList.remove("active");
-    nextCard.classList.add("active");
-
-
-    currentStep++;
-    updateProgressBar();
-
-    if (currentStep === finalStep) {
-      showQuote();
-    }
-
-  }
-
-  // Function to Go Back to Previous Step
-  function prevStep(step) {
-    let currentCard = document.getElementById(`step-${step}`);
-    let prevCard = document.getElementById(`step-${step - 1}`);
-
-    currentCard.classList.remove("active");
-    prevCard.classList.add("active");
-
-
-    currentStep--;
-    updateProgressBar();
-
-  }
-
-  //Function for buttons on project selection
-  function selectProjectType(value) {
-    document.getElementById('projectType').value = value;
-    const buttons = document.querySelectorAll('.option-btn');
-    buttons.forEach(btn => btn.classList.remove('selected'));
-    document.querySelector(`.option-btn[data-value="${value}"]`).classList.add('selected');
-
-    // Update which container should be visible based on project type
-    const projectType = document.getElementById('projectType').value;
-    if (projectType === 'trash_can_pad') {
-      document.getElementById('trashcanpad-options').style.display = 'flex';
-      document.getElementById('range-container').style.display = 'none';
-      //Set the trashcanpad type to required
-      document.getElementById('trashCanPadType').setAttribute('required', 'required');
-    } else {
-      document.getElementById('range-container').style.display = 'block';
-      document.getElementById('trashcanpad-options').style.display = 'none';
-      //Set the trashcanpad type to  not required
-      document.getElementById('trashCanPadType').removeAttribute('required');
-    }
-    setTimeout(() => nextStep(1), 300);
-  }
-
-  //Function for buttons on trash can pad selection
-  function selectTrashCanType(value) {
-    document.getElementById('trashCanPadType').value = value;
-    const buttons = document.querySelectorAll('.option-btn');
-    buttons.forEach(btn => btn.classList.remove('selected'));
-    document.querySelector(`.option-btn[data-value="${value}"]`).classList.add('selected');
-    setTimeout(() => nextStep(2), 300);
-  }
-
-  //Function for buttons on irrigation selection
-  function selectIrrigationType(value) {
-    document.getElementById('irrigationType').value = value;
-    const buttons = document.querySelectorAll('.option-btn');
-    buttons.forEach(btn => btn.classList.remove('selected'));
-    document.querySelector(`.option-btn[data-value="${value}"]`).classList.add('selected');
-    setTimeout(() => nextStep(3), 300);
-  }
-
-  //Function for buttons on slope selection
-  function selectSlopeType(value) {
-    document.getElementById('slopeType').value = value;
-    const buttons = document.querySelectorAll('.option-btn');
-    buttons.forEach(btn => btn.classList.remove('selected'));
-    document.querySelector(`.option-btn[data-value="${value}"]`).classList.add('selected');
-    setTimeout(() => nextStep(4), 300);
-  }
-
-
+  
 
   //Listener for the slider fill
   const sliders = document.querySelectorAll('input[type="range"]');
@@ -302,16 +149,205 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
 
-  function updateSliderTrack(slider) {
-    const min = slider.min || 0;
-    const max = slider.max || 100;
-    const value = slider.value;
-    const percentage = ((value - min) / (max - min)) * 100;
 
-    // Apply gradient background
-    slider.style.background = `linear-gradient(to right,rgb(70, 70, 70) ${percentage}%, #ddd ${percentage}%)`;
-  }
 });
+
+//Project Type Selection Update Min and Max Values Function
+function updateMinMaxValues() {
+  const projectType = document.getElementById('projectType').value;
+  const lengthSlider = document.getElementById('lengthValue');
+  const widthSlider = document.getElementById('widthValue');
+  const lengthDisplay = document.getElementById('lengthDisplay');
+  const widthDisplay = document.getElementById('widthDisplay');
+
+
+  if (projectType === 'walkway') {
+    lengthSlider.min = 10;
+    lengthSlider.max = 50;
+    widthSlider.min = 4;
+    widthSlider.max = 6;
+  } else if (projectType === 'patio') {
+    lengthSlider.min = 5;
+    lengthSlider.max = 20;
+    widthSlider.min = 5;
+    widthSlider.max = 20;
+  } else if (projectType === 'trash_can_pad') {
+    lengthSlider.min = 3;
+    lengthSlider.max = 10;
+    widthSlider.min = 3;
+    widthSlider.max = 10;
+  } else if (projectType === 'driveway') {
+    lengthSlider.min = 18;
+    lengthSlider.max = 30;
+    widthSlider.min = 10;
+    widthSlider.max = 25;
+  }
+
+  // Reset slider values and displays
+  lengthSlider.value = lengthSlider.min;
+  widthSlider.value = widthSlider.min;
+  lengthDisplay.innerText = lengthSlider.value;
+  widthDisplay.innerText = widthSlider.value;
+};
+
+//Progress bar functions
+
+function updateProgressBar() {
+  const progressBar = document.getElementById(`progress-bar`);
+  const totalSteps = finalStep;
+  const progress = ((currentStep) / (totalSteps)) * 100;
+
+  progressBar.style.width = `${progress}%`;
+
+  updateSteps();
+
+  //console.log(`✅ Progress updated: ${progress}%`);
+}
+
+function updateSteps() {
+
+  //Navigation between steps
+  const totalSteps = finalStep
+
+  const currentStepElement = document.getElementById(`step`);
+  currentStepElement.innerHTML = currentStep;
+  const totalStepsElement = document.getElementById(`totalSteps`);
+  totalStepsElement.innerHTML = totalSteps;
+}
+
+
+
+// Function to Validate and Move to Next Step
+function nextStep(step) {
+  let currentCard = document.getElementById(`step-${step}`);
+  let nextCard = document.getElementById(`step-${step + 1}`);
+
+  // Validate only inputs inside the current step
+  let inputs = currentCard.querySelectorAll("input[required], select[required]");
+  let isValid = true;
+
+  inputs.forEach(input => {
+    if (!input.value.trim()) {
+      input.classList.add("input-error");
+      isValid = false;
+    } else {
+      input.classList.remove("input-error");
+    }
+  });
+
+  if (!isValid) {
+    alert("Please fill out all required fields before continuing.");
+    return;
+  }
+
+  // Hide current step and show the next step
+  currentCard.classList.remove("active");
+  nextCard.classList.add("active");
+
+
+  currentStep++;
+  updateProgressBar();
+
+  if (currentStep === finalStep) {
+    showQuote();
+  }
+
+}
+
+// Function to Go Back to Previous Step
+function prevStep(step) {
+  let currentCard = document.getElementById(`step-${step}`);
+  let prevCard = document.getElementById(`step-${step - 1}`);
+
+  currentCard.classList.remove("active");
+  prevCard.classList.add("active");
+
+
+  currentStep--;
+  updateProgressBar();
+
+}
+
+function updateSliderTrack(slider) {
+  const min = slider.min || 0;
+  const max = slider.max || 100;
+  const value = slider.value;
+  const percentage = ((value - min) / (max - min)) * 100;
+
+  // Apply gradient background
+  slider.style.background = `linear-gradient(to right,rgb(70, 70, 70) ${percentage}%, #ddd ${percentage}%)`;
+}
+
+//Function for buttons on project selection
+function selectProjectType(value) {
+  document.getElementById('projectType').value = value;
+  const buttons = document.querySelectorAll('.option-btn');
+  buttons.forEach(btn => btn.classList.remove('selected'));
+  document.querySelector(`.option-btn[data-value="${value}"]`).classList.add('selected');
+
+  // Update which container should be visible based on project type
+  const projectType = document.getElementById('projectType').value;
+  if (projectType === 'trash_can_pad') {
+    document.getElementById('trashcanpad-options').style.display = 'flex';
+    document.getElementById('range-container').style.display = 'none';
+    //Set the trashcanpad type to required
+    document.getElementById('trashCanPadType').setAttribute('required', 'required');
+  } else {
+    document.getElementById('range-container').style.display = 'block';
+    document.getElementById('trashcanpad-options').style.display = 'none';
+    //Set the trashcanpad type to  not required
+    document.getElementById('trashCanPadType').removeAttribute('required');
+  }
+  setTimeout(() => nextStep(1), 300);
+}
+
+//Function for buttons on trash can pad selection
+function selectTrashCanType(value) {
+  document.getElementById('trashCanPadType').value = value;
+  const buttons = document.querySelectorAll('.option-btn');
+  buttons.forEach(btn => btn.classList.remove('selected'));
+  document.querySelector(`.option-btn[data-value="${value}"]`).classList.add('selected');
+  setTimeout(() => nextStep(2), 300);
+}
+
+//Function for buttons on irrigation selection
+function selectIrrigationType(value) {
+  document.getElementById('irrigationType').value = value;
+  const buttons = document.querySelectorAll('.option-btn');
+  buttons.forEach(btn => btn.classList.remove('selected'));
+  document.querySelector(`.option-btn[data-value="${value}"]`).classList.add('selected');
+  setTimeout(() => nextStep(3), 300);
+}
+
+//Function for buttons on slope selection
+function selectSlopeType(value) {
+  document.getElementById('slopeType').value = value;
+  const buttons = document.querySelectorAll('.option-btn');
+  buttons.forEach(btn => btn.classList.remove('selected'));
+  document.querySelector(`.option-btn[data-value="${value}"]`).classList.add('selected');
+  setTimeout(() => nextStep(4), 300);
+}
+
+//Function to update the loading steps as they are completed (reusable)
+function markStepComplete(stepId) {
+  const el = document.getElementById(stepId);
+  if (!el) {
+    console.warn(`⚠️ No element found with id '${stepId}'`);
+    return;
+  }
+
+  // Replace spinner with a green checkmark
+  el.classList.remove('spinner');
+  el.classList.add('done');
+  el.innerHTML = '✅';
+
+  if (stepId === 'wrappingUpQuote') {
+    const payDiv = document.getElementById('info-container');
+    const loadingHeader = document.getElementById('loading-header');
+    loadingHeader.style.display = 'none'; // Hide the loading header
+    payDiv.style.display = 'block'; // Show the payment button div
+  }
+}
 
 //Backend function to start a checkout session
 async function startCheckoutSession(email) {
@@ -334,6 +370,7 @@ async function startCheckoutSession(email) {
 
     if (data.id) {
       console.log("🛒 Checkout session started");
+      markStepComplete('paymentLink')
       return data;
     } else {
       console.log("❌ Error: Invalid response data");
@@ -358,10 +395,12 @@ async function checkEmail(email) {
 
   if (data.total === 0 || data.message === "No contact found") {
     console.log("📩 No emails found in GHL");
+    
     return false;
 
   } else {
     console.log("📧 Email found in GHL");
+    
     return true;
   }
 }
@@ -379,6 +418,7 @@ async function createOpportunity(email) {
 
   if (data.opportunity !== null) {
     console.log("🟢 New opportunity created for " + email);
+   
   } else {
     console.log("❌ Error creating new opportunity");
   }
@@ -397,6 +437,7 @@ async function createCustomer(email, firstName, lastName, projectDetails) {
 
   if (data.contact !== null) {
     console.log("👤 New customer created for " + firstName + " " + lastName + " with email " + email);
+    
   } else {
     console.log("❌ Error creating new customer");
   }
@@ -414,6 +455,7 @@ async function updateContact(email, projectDetails) {
   const data = await response.json();
   if (data.contact !== null) {
     console.log("👤 Contact updated for " + email)
+    
 
   } else {
     console.log("❌ Error updating contact");
@@ -456,6 +498,7 @@ function calculateQuote(projectType, area, irrigationPrice, slopePrice) {
     customerCost = customerCost * (1 + calculatorMargin);
 
     return customerCost;
+    
 
   } else {
 
@@ -477,8 +520,9 @@ function calculateQuote(projectType, area, irrigationPrice, slopePrice) {
     }
 
     return customerCost;
+    
   }
-
+  
 }
 
 //Function to give project details
@@ -595,6 +639,7 @@ function showQuote() {
 
     const quote = calculateQuote(quoteDetails.projectType, quoteDetails.area, quoteDetails.irrigationPrice, quoteDetails.slopePrice);
     const customerPricePerSqFt = (quote - (quoteDetails.irrigationPrice + quoteDetails.slopePrice)) / quoteDetails.area;
+    markStepComplete('processingQuote')
 
     //Project type description
     let projectTypeDesc = quoteDetails.projectTypeDesc;
