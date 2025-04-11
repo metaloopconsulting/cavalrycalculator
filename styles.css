@@ -4,8 +4,8 @@
 
 
 :root {
-  --base-font-size: clamp(1.5rem, 3vw, 2vh);
-  --font-scale-major-third: 1.50;
+  --base-font-size: 2.0vh;
+  --font-scale-major-third: 1.75;
   
   --h1-size: calc(var(--base-font-size) * var(--font-scale-major-third) * var(--font-scale-major-third));
   --h2-size: calc(var(--base-font-size) * var(--font-scale-major-third));
@@ -76,13 +76,13 @@ body {
 }
 
 .progress-text h2 {
-  font-size: clamp(14px, 1.5vh, 2vh);
+  font-size: 1.5vh;
   margin: 0;
   color: #333;
 }
 
 .progress-text p {
-  font-size: clamp(14px, 1.5vh, 2vh);
+  font-size: 1.3vh;
   margin: 0px 0 0;
   color: #666;
 }
@@ -470,7 +470,7 @@ input[type="radio"] {
 
 .loading-table td {
   padding: 8px 12px;
-  font-size: 18px;
+  font-size: var(--p-size);
   text-align: left; /* Centers the text in the loading table */
 }
 .loading-table tr:last-child td {
