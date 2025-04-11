@@ -100,7 +100,9 @@ document.addEventListener("DOMContentLoaded", function () {
       const session = await startCheckoutSession(email.toLowerCase());
       if (session && session.url) {
         console.log("🟢 Redirecting to Stripe checkout...");
-        window.location.href = session.url; // or use window.open if you prefer
+        //window.location.href = session.url; // or use window.open if you prefer
+        //open in a new tab
+        window.open(session.url, '_blank');
       } else {
         console.error("❌ Stripe session returned without a URL");
       }
