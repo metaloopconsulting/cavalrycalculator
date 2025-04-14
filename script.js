@@ -66,9 +66,6 @@ document.addEventListener("DOMContentLoaded", function () {
         await createCustomer(email, firstName, lastName, projectDetails);
         markStepComplete('creatingProfile')
 
-        //Wait 10 seconds for the customer to be created before creating the opportunity
-        console.log("⌛ Waiting for customer to be created...");
-        await new Promise(resolve => setTimeout(resolve, 5000));
 
         await createOpportunity(email.toLowerCase());
         markStepComplete('wrappingUpQuote')
