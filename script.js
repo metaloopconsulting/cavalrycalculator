@@ -75,7 +75,7 @@ document.addEventListener("DOMContentLoaded", function () {
       }
       else {
 
-        await updateContact(email.toLowerCase(), projectDetails);
+        await updateContact(email.toLowerCase(), firstName, lastName, projectDetails);
         markStepComplete('creatingProfile')
 
         await createOpportunity(email.toLowerCase());
@@ -446,13 +446,13 @@ async function createCustomer(email, firstName, lastName, projectDetails) {
 }
 
 //Backend function to update contact
-async function updateContact(email, projectDetails) {
+async function updateContact(email, firstName, lastName, projectDetails) {
   const response = await fetch(`${backendURL}ghl/contacts/updateContact`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({ email: email.toLowerCase(), projectDetails: projectDetails })
+    body: JSON.stringify({ email: email.toLowerCase(), firstName: firstName, lastName: lastName, projectDetails: projectDetails })
   })
   const data = await response.json();
   if (data.contact !== null) {
