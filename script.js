@@ -1,6 +1,6 @@
 //Navigation between steps
 let currentStep = 0; // Track the current step
-let finalStep = 8; // The final step
+let finalStep = 7; // The final step
 let calculatorMargin = 0.2; // Margin for the calculator
 let backendURL = `https://cavalrycalculator-backend-production.up.railway.app/`;
 let backendPort = `8080`;
@@ -264,7 +264,7 @@ function nextStep(step) {
   updateProgressBar();
 
   if (currentStep === finalStep) {
-    showQuote();
+    markStepComplete('processingQuote');
   }
 
 }
@@ -563,14 +563,14 @@ function getProjectDetails() {
 
   // Get the values from the form
   const projectType = document.getElementById("projectType").value;
-  const length = parseFloat(document.getElementById("lengthValue").value);
-  const width = parseFloat(document.getElementById("widthValue").value);
+  let length = parseFloat(document.getElementById("lengthValue").value);
+  let width = parseFloat(document.getElementById("widthValue").value);
   const irrigationValue = document.getElementById("irrigationType").value;
   const slopeValue = document.getElementById("slopeType").value;
   const trashCanPadValue = document.getElementById("trashCanPadType").value;
   const clearance = document.getElementById("clearanceType").value;
   const distance = document.getElementById("distanceType").value;
-  const area = length * width;
+  let area = length * width;
 
 
   // Calculate irrigation price
@@ -651,25 +651,9 @@ function getProjectDetails() {
 }
 
 //Handles showing the output of the quote
+/*
 function showQuote() {
 
-
-  if (currentStep === finalStep) {
-    console.log("✅ Showing quote");
-
-    let finalStepElement = document.getElementById(`step-${finalStep}`);
-    if (finalStepElement) {
-      finalStepElement.classList.add("active");
-      finalStepElement.style.display = "block";
-    } else {
-      console.error("❌ Final step element not found.");
-    }
-
-    const quoteOutput = document.getElementById("quoteOutput");
-    if (!quoteOutput) {
-      console.error("❌ Error: #quoteOutput not found in the DOM.");
-      return;
-    }
 
     const quoteDetails = getProjectDetails().projectDetails;
 
@@ -681,7 +665,7 @@ function showQuote() {
     //Project type description
     let projectTypeDesc = quoteDetails.projectTypeDesc;
 
-    // Your existing quote calculation logic
+    /* Your existing quote calculation logic
     document.getElementById('quoteOutput').innerHTML = `
       <div class="invoice-container">
         <h2>Quote Summary</h2>
@@ -701,6 +685,8 @@ function showQuote() {
     `;
 
     quoteOutput.style.display = "block"; // Ensure it's visible
+    
   }
-}
+  */
+
 
