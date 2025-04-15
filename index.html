@@ -171,6 +171,55 @@
         </div>
 
         <div class="quote-card" id="step-5">
+          <h2>Do you have at least 4ft of horizontal clearance?</h2>
+          <p>If you have a gate, is it at least 4ft wide at the entrance?</p>
+          <p>If the project site is in your backyard, we need to make sure we have room to bring our equipment in without a pump.</p>
+          <p>If this project is in your front yard or you don't have a fence, just say you have clearance.</p>
+          <br>
+
+          <!-- Buttons for Slope Type -->
+          <div class="button-options">
+            <button type="button" class="option-btn" id="clearance-button" data-value="Yes">I have 4ft of Clearance</button>
+            <button type="button" class="option-btn" id="clearance-button" data-value="No">No I do not</button>
+            <!-- Add more buttons as needed -->
+          </div>
+
+          <!-- Hidden input to store selected project type -->
+          <input type="hidden" id="clearanceType" name="clearanceType" required>
+
+          <div class="button-container">
+
+            <button class="prev-btn" data-step="5">Back</button>
+            <button class="next-btn" data-step="5">Next Step</button>
+
+          </div>
+        </div>
+
+        <div class="quote-card" id="step-6">
+          <h2>How far back is the project from the street?</h2>
+          <p>If the project is very far from the street, we need to use a pump to move the concrete to the site.</p>
+          <br>
+
+          <!-- Buttons for Slope Type -->
+          <div class="button-options">
+            <button type="button" class="option-btn" id="distance-button" data-value="Close">Less than 10 Feet</button>
+            <button type="button" class="option-btn" id="distance-button" data-value="Medium">Between 11 and 30 Feet</button>
+            <button type="button" class="option-btn" id="distance-button" data-value="Far">Really Far from the Street</button>
+            <!-- Add more buttons as needed -->
+          </div>
+
+          <!-- Hidden input to store selected project type -->
+          <input type="hidden" id="distanceType" name="distanceType" required>
+
+          <div class="button-container">
+
+            <button class="prev-btn" data-step="6">Back</button>
+            <button class="next-btn" data-step="6">Next Step</button>
+
+          </div>
+        </div>
+
+        <div class="quote-card" id="step-7">
           <h2>Let's get your info so we can send the quote over</h2>
           <div class="input-container">
             <input type="text" id="firstName" name="firstName" placeholder="First Name" required>
@@ -180,14 +229,14 @@
 
           <div class="button-container">
 
-            <button class="prev-btn" data-step="5">Back</button>
-            <button type="submit" class="next-btn" data-step="5" id="submit-btn">Next Step</button>
+            <button class="prev-btn" data-step="7">Back</button>
+            <button type="submit" class="next-btn" data-step="7" id="submit-btn">Next Step</button>
 
           </div>
         </div>
 
 
-        <div class="quote-card" id="step-6">
+        <div class="quote-card" id="step-8">
 
           <!-- Loading Sequence in Table Format -->
           <div id="loading-sequence" class="loading-sequence">
@@ -242,28 +291,6 @@
           </div>
 
         </div>
-
-
-
-
-
-
-
-
-
-
-
-        <!-- Submit Button -->
-        <div class="quote-card" id="step-7">
-          <h2>All Done! Here is your quote.</h2>
-
-          <div class="quoteOutput" id="quoteOutput"></div>
-
-        </div>
-
-
-
-
 
     </div>
     </form>

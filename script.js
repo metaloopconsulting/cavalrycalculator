@@ -1,6 +1,6 @@
 //Navigation between steps
 let currentStep = 0; // Track the current step
-let finalStep = 6; // The final step
+let finalStep = 8; // The final step
 let calculatorMargin = 0.2; // Margin for the calculator
 let backendURL = `https://cavalrycalculator-backend-production.up.railway.app/`;
 let backendPort = `8080`;
@@ -47,6 +47,22 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
+  //Listeners for the buttons on the clearance selection
+  const clearanceButtons = document.querySelectorAll('#clearance-button');
+  clearanceButtons.forEach(btn => {
+    btn.addEventListener('click', function () {
+      selectClearanceType(this.dataset.value);
+    });
+  });
+
+  //Listeners for the buttons on the clearance selection
+  const distanceButtons = document.querySelectorAll('#distance-button');
+  distanceButtons.forEach(btn => {
+    btn.addEventListener('click', function () {
+      selectDistanceType(this.dataset.value);
+    });
+  });
+
   //Listener for first name last name and email input on submit button
   const submitButton = document.getElementById('submit-btn');
 
@@ -67,7 +83,7 @@ document.addEventListener("DOMContentLoaded", function () {
         markStepComplete('creatingProfile')
 
 
-        await createOpportunity(email.toLowerCase());
+        await createOpportunity(email.toLowerCase(), projectDetails);
         markStepComplete('wrappingUpQuote')
       }
       else {
@@ -75,7 +91,7 @@ document.addEventListener("DOMContentLoaded", function () {
         await updateContact(email.toLowerCase(), firstName, lastName, projectDetails);
         markStepComplete('creatingProfile')
 
-        await createOpportunity(email.toLowerCase());
+        await createOpportunity(email.toLowerCase(), projectDetails);
         markStepComplete('wrappingUpQuote')
       }
 
@@ -327,6 +343,24 @@ function selectSlopeType(value) {
   setTimeout(() => nextStep(4), 300);
 }
 
+//Function for buttons on slope selection
+function selectClearanceType(value) {
+  document.getElementById('clearanceType').value = value;
+  const buttons = document.querySelectorAll('.option-btn');
+  buttons.forEach(btn => btn.classList.remove('selected'));
+  document.querySelector(`.option-btn[data-value="${value}"]`).classList.add('selected');
+  setTimeout(() => nextStep(5), 300);
+}
+
+//Function for buttons on slope selection
+function selectDistanceType(value) {
+  document.getElementById('distanceType').value = value;
+  const buttons = document.querySelectorAll('.option-btn');
+  buttons.forEach(btn => btn.classList.remove('selected'));
+  document.querySelector(`.option-btn[data-value="${value}"]`).classList.add('selected');
+  setTimeout(() => nextStep(6), 300);
+}
+
 //Function to update the loading steps as they are completed (reusable)
 function markStepComplete(stepId) {
   const el = document.getElementById(stepId);
@@ -405,13 +439,13 @@ async function checkEmail(email) {
 }
 
 //Backend function to create a new opportunity for unpaid quote
-async function createOpportunity(email) {
+async function createOpportunity(email, projectDetails) {
   const response = await fetch(`${backendURL}ghl/opportunities/createUnpaid`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({ email: email.toLowerCase()})
+    body: JSON.stringify({ email: email.toLowerCase(), projectDetails: projectDetails})
   })
   const data = await response.json();
 
@@ -534,6 +568,8 @@ function getProjectDetails() {
   const irrigationValue = document.getElementById("irrigationType").value;
   const slopeValue = document.getElementById("slopeType").value;
   const trashCanPadValue = document.getElementById("trashCanPadType").value;
+  const clearance = document.getElementById("clearanceType").value;
+  const distance = document.getElementById("distanceType").value;
   const area = length * width;
 
 
@@ -607,6 +643,8 @@ function getProjectDetails() {
       slopePrice: slopePrice,
       trashCanPadType: trashCanPadValue,
       quote: quoteValue,
+      clearance: clearance,
+      distance: distance,
     },
   }
 
