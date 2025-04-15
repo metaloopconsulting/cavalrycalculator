@@ -332,10 +332,29 @@ button {
   display: flex;          /* Makes buttons appear side by side */
   justify-content: center; /* Centers the buttons */
   gap: 15px;             /* Adds spacing between buttons */
-  margin-top: 50px;
+  margin-top: 10px;
   margin-bottom: 15px;      /* Adds spacing above */
   background-color: var(--primary-color);
   padding: 10px 30px;
+  animation: glowPulse 1.5s ease-in-out infinite alternate;
+  transition: transform 0.3s ease;
+}
+
+.buy-button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px var(--primary-color), 0 0 30px var(--primary-color);
+}
+
+@keyframes glowPulse {
+  0% {
+    box-shadow: 0 0 8px var(--primary-color);
+  }
+  50% {
+    box-shadow: 0 0 20px var(--primary-color), 0 0 30px var(--primary-color);
+  }
+  100% {
+    box-shadow: 0 0 8px var(--primary-color);
+  }
 }
 
 a {
@@ -454,7 +473,7 @@ input[type="radio"] {
 .loading-sequence {
   display: block;
   align-items: center;
-  padding: 10px;
+  padding: 20px;
   border-radius: 8px;
   margin: auto;
   text-align: left;
@@ -465,7 +484,7 @@ input[type="radio"] {
   width: auto;
   border-collapse: collapse;
   margin: 20px auto; /* Centers the loading table */
-  margin: 0 auto; /* Centers the loading table */
+  
 }
 
 .loading-table td {
@@ -506,5 +525,10 @@ input[type="radio"] {
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
+}
+
+.info-container {
+  padding: 0px;
+
 }
 
