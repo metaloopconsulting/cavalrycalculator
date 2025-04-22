@@ -131,8 +131,9 @@ p {
   margin-top: max(20vh, 110px); /* Ensures space below the header */
   display: flex;
   justify-content: center; /* Ensures perfect centering */
-  align-items: center; /* Aligns vertically in case needed */
+  align-items: center;
   width: 100%;
+  
 }
 
 .quote-container {
@@ -145,6 +146,7 @@ p {
   border-radius: 12px;
   justify-content: center;
   align-items: center;
+  
   
 }
 
@@ -161,7 +163,7 @@ p {
   padding-bottom: 15px;
   transform: translateY(100%);
   transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
- 
+  
 }
 
 .quote-card.active {
