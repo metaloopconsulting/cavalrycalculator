@@ -1,12 +1,39 @@
-//Navigation between steps
+/*
+
+ /////////////////////////////////
+ INITIALIZATION
+ /////////////////////////////////
+
+*/
+
 let currentStep = 0; // Track the current step
 let finalStep = 7; // The final step
-let calculatorMargin = 0.2; // Margin for the calculator
 let backendURL = `https://cavalrycalculator-backend-production.up.railway.app/`;
 let backendPort = `8080`;
 
+/*
 
-//Button click event listeners
+ /////////////////////////////////
+ SETUP
+ /////////////////////////////////
+
+*/
+
+let calculatorMargin = 0.3; // Margin for the calculator
+let sqFtLimitLowest = 150;
+let sqFtLimitHighest = 300;
+
+
+
+
+/*
+
+  /////////////////////////////////
+  EVENT LISTENERS ON CONTENT LOAD
+  /////////////////////////////////
+
+*/
+
 document.addEventListener("DOMContentLoaded", function () {
 
   //ping backend
@@ -101,7 +128,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
-
   //Listener for the buy button
   const buyButton = document.getElementById('buy-button');
 
@@ -115,7 +141,7 @@ document.addEventListener("DOMContentLoaded", function () {
         console.log("🟢 Redirecting to Stripe checkout...");
         //window.location.href = session.url; // or use window.open if you prefer
         window.parent.postMessage({ type: 'openStripe', url: session.url }, '*');
-        
+
       } else {
         console.error("❌ Stripe session returned without a URL");
       }
@@ -124,33 +150,18 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
+  /*
+
+  /////////////////////////////////
+  STEPS AND PROGRESS BAR
+  /////////////////////////////////
+
+  */
 
   //Update steps tracker
   updateSteps();
 
   updateProgressBar();
-
-  // Next Button Click Event
-  const nextButtons = document.querySelectorAll(".next-btn");
-  nextButtons.forEach(btn => {
-    btn.addEventListener("click", function (event) {
-      event.preventDefault(); // Prevent default form validation behavior
-      let step = parseInt(this.dataset.step);
-      nextStep(step);
-    });
-  });
-
-  // Previous Button Click Event
-  const prevButtons = document.querySelectorAll(".prev-btn");
-  prevButtons.forEach(btn => {
-    btn.addEventListener("click", function (event) {
-      event.preventDefault(); // Prevent default form validation behavior
-      let step = parseInt(this.dataset.step);
-      prevStep(step);
-    });
-  });
-
-  
 
   //Listener for the slider fill
   const sliders = document.querySelectorAll('input[type="range"]');
@@ -166,6 +177,101 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 });
+
+/*
+
+ /////////////////////////////////
+ NEXT AND PREVIOUS BUTTONS
+ /////////////////////////////////
+
+*/
+
+
+// Next Button Click Event
+const nextButtons = document.querySelectorAll(".next-btn");
+nextButtons.forEach(btn => {
+  btn.addEventListener("click", function (event) {
+    event.preventDefault(); // Prevent default form validation behavior
+    let step = parseInt(this.dataset.step);
+    nextStep(step);
+  });
+});
+
+// Previous Button Click Event
+const prevButtons = document.querySelectorAll(".prev-btn");
+prevButtons.forEach(btn => {
+  btn.addEventListener("click", function (event) {
+    event.preventDefault(); // Prevent default form validation behavior
+    let step = parseInt(this.dataset.step);
+    prevStep(step);
+  });
+});
+
+/*
+
+  /////////////////////////////////
+  FUNCTIONS
+  /////////////////////////////////
+
+*/
+
+function calculateSlopePrice(slopeType, squareFootage, projectType) {
+
+  // Trash can pad slope pricing
+  if (projectType === "trash_can_pad") {
+    if(slopeType === "none") {
+      return 0; 
+    } else if (slopeType === "slight") {
+      return 50;
+    } else if (slopeType === "moderate") {
+      return 100;
+    } else if (slopeType === "high") {
+      return 150;
+    }
+
+
+  //Walkway, patio, driveway slope pricing
+  } else if (projectType === "walkway" || projectType === "patio" || projectType === "driveway") {
+    if (slopeType === "none") {
+      return 0;
+    }
+    else if (slopeType === "slight") {
+      if (squareFootage <= sqFtLimitLowest) { 
+        return 100;
+      } else if
+        (squareFootage > sqFtLimitLowest && squareFootage <= sqFtLimitHighest) {
+        return 200;
+      }
+      else {
+        return 300;
+      }
+    } else if (slopeType === "moderate") {
+      if (squareFootage <= sqFtLimitLowest) {
+        return 150;
+      }
+      else if (squareFootage > sqFtLimitLowest && squareFootage <= sqFtLimitHighest) {
+        return 250;
+      }
+      else {
+        return 350;
+      }
+    } else if (slopeType === "high") {
+      if (squareFootage <= sqFtLimitLowest) {
+        return 200;
+      }
+      else if (squareFootage > sqFtLimitLowest && squareFootage <= sqFtLimitHighest) {
+        return 300;
+      }
+      else {
+        return 400;
+      }
+    }
+  }
+
+  return 0; // Default case if no conditions are met
+
+}
+
 
 //Project Type Selection Update Min and Max Values Function
 function updateMinMaxValues() {
@@ -414,6 +520,14 @@ async function startCheckoutSession(email) {
   }
 }
 
+/*
+
+/////////////////////////////////////
+BACKEND FUNCTIONS
+/////////////////////////////////////
+
+*/
+
 //Backend function to check for existing email
 async function checkEmail(email) {
   console.log("⌛ Checking email in GHL...");
@@ -428,12 +542,12 @@ async function checkEmail(email) {
 
   if (data.total === 0 || data.message === "No contact found") {
     console.log("📩 No emails found in GHL");
-    
+
     return false;
 
   } else {
     console.log("📧 Email found in GHL");
-    
+
     return true;
   }
 }
@@ -445,13 +559,13 @@ async function createOpportunity(email, projectDetails) {
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({ email: email.toLowerCase(), projectDetails: projectDetails})
+    body: JSON.stringify({ email: email.toLowerCase(), projectDetails: projectDetails })
   })
   const data = await response.json();
 
   if (data.opportunity !== null) {
     console.log("🟢 New opportunity created for " + email);
-   
+
   } else {
     console.log("❌ Error creating new opportunity");
   }
@@ -470,7 +584,7 @@ async function createCustomer(email, firstName, lastName, projectDetails) {
 
   if (data.contact !== null) {
     console.log("👤 New customer created for " + firstName + " " + lastName + " with email " + email);
-    
+
   } else {
     console.log("❌ Error creating new customer");
   }
@@ -488,7 +602,7 @@ async function updateContact(email, firstName, lastName, projectDetails) {
   const data = await response.json();
   if (data.contact !== null) {
     console.log("👤 Contact updated for " + email)
-    
+
 
   } else {
     console.log("❌ Error updating contact");
@@ -531,7 +645,7 @@ function calculateQuote(projectType, area, irrigationPrice, slopePrice) {
     customerCost = customerCost * (1 + calculatorMargin);
 
     return customerCost;
-    
+
 
   } else {
 
@@ -553,9 +667,9 @@ function calculateQuote(projectType, area, irrigationPrice, slopePrice) {
     }
 
     return customerCost;
-    
+
   }
-  
+
 }
 
 //Function to give project details
@@ -583,19 +697,7 @@ function getProjectDetails() {
   }
 
   // Calculate slope price
-  let slopePrice = 0;
-
-  if (slopeValue === "none") {
-    slopePrice = 0;
-  } else if (slopeValue === "slight") {
-    slopePrice = 100;
-  } else if (slopeValue === "moderate") {
-    slopePrice = 200;
-  } else if (slopeValue === "high") {
-    slopePrice = 300;
-  } else {
-    slopeCost = 0;
-  }
+  let slopePrice = calculateSlopePrice(slopeValue, area, projectType);
 
   //Project type description
   let projectTypeDesc = "Unknown Project Type";
