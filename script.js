@@ -272,6 +272,28 @@ function calculateSlopePrice(slopeType, squareFootage, projectType) {
 
 }
 
+function calculateIrrigationPrice(irrigationType, projectType) {
+
+  if (projectType === "trash_can_pad") {
+    if (irrigationType === "none") {
+      return 0;
+    } else if (irrigationType === "capped") {
+      return 50;
+    } else if (irrigationType === "rerouted") {
+      return 100;
+    }
+    else if (projectType === "walkway" || projectType === "patio" || projectType === "driveway") {
+      if (irrigationType === "none") {
+        return 0;
+      } else if (irrigationType === "capped") {
+        return 100;
+      } else if (irrigationType === "rerouted") {
+        return 250;
+      }
+    }
+  }
+}
+
 
 //Project Type Selection Update Min and Max Values Function
 function updateMinMaxValues() {
@@ -624,7 +646,7 @@ function getPricePerSqFt(area) {
   return pricePerSqFt;
 }
 
-function calculateQuote(projectType, area, irrigationPrice, slopePrice) {
+function calculateQuote(projectType, area, irrigationPrice, slopePrice, pumpTruckCost) {
 
   let baseCost = 0;
   let basePricePerSqFt = 0;
@@ -657,6 +679,8 @@ function calculateQuote(projectType, area, irrigationPrice, slopePrice) {
 
     customerCost = baseCost * (1 + calculatorMargin);
     customerCost += irrigationPrice + slopePrice;
+    customerCost += pumpTruckCost; // Add pump truck cost
+    customerCost = Math.round(customerCost); // Round to nearest dollar
 
     //Minimum price for things not trash can pad
     if (projectType === "trash_can_pad") {
@@ -688,16 +712,16 @@ function getProjectDetails() {
 
 
   // Calculate irrigation price
-  if (irrigationValue === "none") {
-    irrigationPrice = 0;
-  } else if (irrigationValue === "capped") {
-    irrigationPrice = 50;
-  } else if (irrigationValue === "rerouted") {
-    irrigationPrice = 100;
-  }
+  let irrigationPrice = calculateIrrigationPrice(irrigationValue, projectType);
 
   // Calculate slope price
   let slopePrice = calculateSlopePrice(slopeValue, area, projectType);
+
+  // Calculate pump truck cost
+  let pumpTruckCost = 0;
+  if (distance === "Far") {
+    pumpTruckCost = 1000;
+  }
 
   //Project type description
   let projectTypeDesc = "Unknown Project Type";
@@ -729,7 +753,7 @@ function getProjectDetails() {
   }
 
 
-  const quoteValue = calculateQuote(projectType, area, irrigationPrice, slopePrice);
+  const quoteValue = calculateQuote(projectType, area, irrigationPrice, slopePrice, pumpTruckCost);
   const customerPricePerSqFt = (quoteValue - (irrigationPrice + slopePrice)) / area;
 
   return {
@@ -747,6 +771,7 @@ function getProjectDetails() {
       quote: quoteValue,
       clearance: clearance,
       distance: distance,
+      pumpTruckCost: pumpTruckCost
     },
   }
 
