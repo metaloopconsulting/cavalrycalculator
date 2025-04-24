@@ -219,8 +219,8 @@ function calculateSlopePrice(slopeType, squareFootage, projectType) {
 
   // Trash can pad slope pricing
   if (projectType === "trash_can_pad") {
-    if(slopeType === "none") {
-      return 0; 
+    if (slopeType === "none") {
+      return 0;
     } else if (slopeType === "slight") {
       return 50;
     } else if (slopeType === "moderate") {
@@ -230,13 +230,13 @@ function calculateSlopePrice(slopeType, squareFootage, projectType) {
     }
 
 
-  //Walkway, patio, driveway slope pricing
+    //Walkway, patio, driveway slope pricing
   } else if (projectType === "walkway" || projectType === "patio" || projectType === "driveway") {
     if (slopeType === "none") {
       return 0;
     }
     else if (slopeType === "slight") {
-      if (squareFootage <= sqFtLimitLowest) { 
+      if (squareFootage <= sqFtLimitLowest) {
         return 100;
       } else if
         (squareFootage > sqFtLimitLowest && squareFootage <= sqFtLimitHighest) {
@@ -282,17 +282,17 @@ function calculateIrrigationPrice(irrigationType, projectType) {
     } else if (irrigationType === "rerouted") {
       return 100;
     }
-    else if (projectType === "walkway" || projectType === "patio" || projectType === "driveway") {
-      if (irrigationType === "none") {
-        return 0;
-      } else if (irrigationType === "capped") {
-        return 100;
-      } else if (irrigationType === "rerouted") {
-        return 250;
-      }
+  } else if (projectType === "walkway" || projectType === "patio" || projectType === "driveway") {
+    if (irrigationType === "none") {
+      return 0;
+    } else if (irrigationType === "capped") {
+      return 100;
+    } else if (irrigationType === "rerouted") {
+      return 250;
     }
   }
 }
+
 
 
 //Project Type Selection Update Min and Max Values Function
