@@ -374,18 +374,44 @@ button:active {
 
 /* Properly align checkboxes with labels */
 .checkbox-container {
-  display: inline; /* Ensures checkbox and label are on the same line */
+  display: block; /* Ensures checkbox and label are on the same line */
   gap: 20px; /* Adds spacing between checkbox and text */
   justify-content: center; /* Aligns everything to the left */
-  width: 100%; /* Ensures full width for alignment */
-  margin-bottom: 15px; /* Adds space between each checkbox */
-  margin: 10px 0; /* Adds space above and below the container */
+  margin: auto; /* Centers the checkbox container */
+  width: 80%; /* Ensures full width for alignment */
+  align-items: center;
+}
+
+.attestation-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+  font-size: 1.1em;
+  line-height: 1.4;
+  text-align: justify;
+  max-width: 850px;
+}
+
+.attestation-checkbox input[type="checkbox"] {
+  width: 28px;
+  height: 28px;
+  accent-color: #ffc107; /* Optional: styled like your yellow button */
+  flex-shrink: 0;
+  margin-top: 4px;
+}
+
+.attestation-checkbox label {
+  flex: 1;
+  cursor: pointer;
 }
 
 /* Fix checkbox sizing */
 input[type="checkbox"] {
-  width: 18px;
-  height: 18px;
+  display:inline-flex;
+  align-items: center;
+  width: 58px;
+  height: 28px;
   margin-right: 10px; /* Adds space between checkbox and text */
 }
 

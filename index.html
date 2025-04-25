@@ -170,32 +170,8 @@
           </div>
         </div>
 
+
         <div class="quote-card" id="step-5">
-          <h2>Do you have at least 4ft of horizontal clearance?</h2>
-          <p>If you have a gate, is it at least 4ft wide at the entrance?</p>
-          <p>If the project site is in your backyard, we need to make sure we have room to bring our equipment in without a pump.</p>
-          <p>If this project is in your front yard or you don't have a fence, just say you have clearance.</p>
-          <br>
-
-          <!-- Buttons for Slope Type -->
-          <div class="button-options">
-            <button type="button" class="option-btn" id="clearance-button" data-value="Yes">I have 4ft of Clearance</button>
-            <button type="button" class="option-btn" id="clearance-button" data-value="No">No I do not</button>
-            <!-- Add more buttons as needed -->
-          </div>
-
-          <!-- Hidden input to store selected project type -->
-          <input type="hidden" id="clearanceType" name="clearanceType" required>
-
-          <div class="button-container">
-
-            <button class="prev-btn" data-step="5">Back</button>
-            <button class="next-btn" data-step="5">Next Step</button>
-
-          </div>
-        </div>
-
-        <div class="quote-card" id="step-6">
           <h2>Can our concrete truck pull up within <b>150 feet</b> of the work area?</h2>
           <p>If the project is very far from the street, we need to use a pump to move the concrete to the site.</p>
           <br>
@@ -212,95 +188,135 @@
 
           <div class="button-container">
 
+            <button class="prev-btn" data-step="5">Back</button>
+            <button class="next-btn" data-step="5">Next Step</button>
+
+          </div>
+        </div>
+
+        <div class="quote-card" id="step-6">
+          <h2>Attestation</h2>
+          <div class="checkbox-container">
+
+            <div class="attestation-checkbox">
+              <input type="checkbox" id="attest-1" name="attestation" required="true">
+              <label for="attest-1">I understand that I am responsible for marking all underground utilities and that
+                <span class="companyName"></span> is not liable for any damages to underground utilities, including
+                buried water, gas, internet, and/or sewer lines.</label>
+            </div>
+
+            <div class="attestation-checkbox">
+              <input type="checkbox" id="attest-2" name="attestation" required="true">
+              <label for="attest-2">I have at least 4 feet of width clearance to my project site, including at least a
+                4 foot wide entry to any gates or doors if applicable. This is so we can get our equipment to your
+                site.</label>
+            </div>
+
+            <div class="attestation-checkbox">
+              <input type="checkbox" id="attest-3" name="attestation" required="true">
+              <label for="attest-3">I affirm that all previous questions were answered accurately and that any
+                changes
+                to the project criteria later may result in further charges and fees.</label>
+            </div>
+
+
+          </div>
+
+          <div class="button-container">
+
             <button class="prev-btn" data-step="6">Back</button>
             <button class="next-btn" data-step="6">Next Step</button>
 
           </div>
         </div>
 
-        <div class="quote-card" id="step-7">
-          <h2>Let's get your info so we can send the quote over</h2>
-          <div class="input-container">
-            <input type="text" id="firstName" name="firstName" placeholder="First Name" required>
-            <input type="text" id="lastName" name="lastName" placeholder="Last Name" required>
-            <input type="email" id="email" name="email" placeholder="Email" required>
-          </div>
-
-          <div class="button-container">
-
-            <button class="prev-btn" data-step="7">Back</button>
-            <button type="submit" class="next-btn" data-step="7" id="submit-btn">Next Step</button>
-
-          </div>
-        </div>
 
 
-        <div class="quote-card" id="step-8">
-
-          <!-- Loading Sequence in Table Format -->
-          <div id="loading-sequence" class="loading-sequence">
-            <div class="loading-header" id="loading-header">
-              <h2>Almost there!</h2>
-              <p>We are processing your quote. This may take a few moments.</p>
+          <div class="quote-card" id="step-7">
+            <h2>Let's get your info so we can send the quote over</h2>
+            <div class="input-container">
+              <input type="text" id="firstName" name="firstName" placeholder="First Name" required>
+              <input type="text" id="lastName" name="lastName" placeholder="Last Name" required>
+              <input type="email" id="email" name="email" placeholder="Email" required>
             </div>
-            <table class="loading-table">
-              <tr>
-                <td>
-                  <div class="spinner" id="checkingEmail"></div>
-                </td>
-                <td>
-                  <div>Validating your email</div></td>
-              </tr>
-              <tr>
-                <td>
-                  <div class="spinner" id="creatingProfile"></div>
-                </td>
-                <td>
-                  <div>Creating profile</div></td>
-              </tr>
-              <tr>
-                <td>
-                  <div class="spinner" id="processingQuote"></div>
-                </td>
-                <td>Calculating quote</td>
-              </tr>
-              <tr>
-                <td>
-                  <div class="spinner" id="wrappingUpQuote"></div>
-                </td>
-                <td>Wrapping up quote</td>
-              </tr>
-            
-            </table>
-
-          </div>
-
-
-          <div class="info-container" id="info-container" style="display:none">
-
-            <h2>One last step to reveal your price</h2>
-            <p>We charge a small $5.00 fee to generate your quote. This is a one-time fee and we will email your $100
-              off coupon for this project immediately after payment.</p>
 
             <div class="button-container">
-              <button id="buy-button" class="buy-button">Pay Quote Fee</button>
+
+              <button class="prev-btn" data-step="7">Back</button>
+              <button type="submit" class="next-btn" data-step="7" id="submit-btn">Next Step</button>
+
+            </div>
+          </div>
+
+
+          <div class="quote-card" id="step-8">
+
+            <!-- Loading Sequence in Table Format -->
+            <div id="loading-sequence" class="loading-sequence">
+              <div class="loading-header" id="loading-header">
+                <h2>Almost there!</h2>
+                <p>We are processing your quote. This may take a few moments.</p>
+              </div>
+              <table class="loading-table">
+                <tr>
+                  <td>
+                    <div class="spinner" id="checkingEmail"></div>
+                  </td>
+                  <td>
+                    <div>Validating your email</div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="spinner" id="creatingProfile"></div>
+                  </td>
+                  <td>
+                    <div>Creating profile</div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="spinner" id="processingQuote"></div>
+                  </td>
+                  <td>Calculating quote</td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="spinner" id="wrappingUpQuote"></div>
+                  </td>
+                  <td>Wrapping up quote</td>
+                </tr>
+
+              </table>
+
             </div>
 
-            
+
+            <div class="info-container" id="info-container" style="display:none">
+
+              <h2>One last step to reveal your price</h2>
+              <p>We charge a small $5.00 fee to generate your quote. This is a one-time fee and we will email your $100
+                off coupon for this project immediately after payment.</p>
+
+              <div class="button-container">
+                <button id="buy-button" class="buy-button">Pay Quote Fee</button>
+              </div>
+
+
+            </div>
+
           </div>
 
         </div>
+      </form>
 
     </div>
-    </form>
-
-  </div>
 
 
 
-  <!-- Link your JavaScript file -->
-  <script src="script.js"></script>
-  <script type="module" src="config.js"></script>
+    <!-- Link your JavaScript file -->
+    <script src="script.js"></script>
+    <script type="module" src="config.js"></script>
 
 
 

@@ -7,7 +7,7 @@
 */
 
 let currentStep = 0; // Track the current step
-let finalStep = 7; // The final step
+let finalStep = 8; // The final step
 let backendURL = `https://cavalrycalculator-backend-production.up.railway.app/`;
 let backendPort = `8080`;
 
@@ -22,6 +22,7 @@ let backendPort = `8080`;
 let calculatorMargin = 0.3; // Margin for the calculator
 let sqFtLimitLowest = 150;
 let sqFtLimitHighest = 300;
+let companyName = "Cavalry Concrete";
 
 
 
@@ -34,12 +35,21 @@ let sqFtLimitHighest = 300;
 
 */
 
+
+//Set company name variable
+document.querySelectorAll(".companyName").forEach(el => {
+  el.textContent = companyName;
+});
+
+
 document.addEventListener("DOMContentLoaded", function () {
 
   //ping backend
   fetch(backendURL)
     .then(response => response.text())
     .then(data => console.log(data))
+
+
 
   //Listeners for the buttons on the project selection
   const projectButtons = document.querySelectorAll('#project-button');
@@ -369,13 +379,26 @@ function nextStep(step) {
   let inputs = currentCard.querySelectorAll("input[required], select[required]");
   let isValid = true;
 
+
+
   inputs.forEach(input => {
+    //Checkboxes handler to make sure it's checked true
+    if (input.type === "checkbox") {
+      if (!input.checked) {
+        input.classList.add("input-error");
+        isValid = false;
+      } else {
+        input.classList.remove("input-error");
+      }
+    } else if (input.type === "hidden") {
     if (!input.value.trim()) {
       input.classList.add("input-error");
       isValid = false;
     } else {
       input.classList.remove("input-error");
     }
+  }
+
   });
 
   if (!isValid) {
@@ -471,7 +494,9 @@ function selectSlopeType(value) {
   setTimeout(() => nextStep(4), 300);
 }
 
-//Function for buttons on slope selection
+/* REMOVED AND MOVED TO ATTENTANTION
+
+//Function for buttons on clearance selection
 function selectClearanceType(value) {
   document.getElementById('clearanceType').value = value;
   const buttons = document.querySelectorAll('.option-btn');
@@ -479,14 +504,15 @@ function selectClearanceType(value) {
   document.querySelector(`.option-btn[data-value="${value}"]`).classList.add('selected');
   setTimeout(() => nextStep(5), 300);
 }
+*/
 
-//Function for buttons on slope selection
+//Function for buttons on distance selection
 function selectDistanceType(value) {
   document.getElementById('distanceType').value = value;
   const buttons = document.querySelectorAll('.option-btn');
   buttons.forEach(btn => btn.classList.remove('selected'));
   document.querySelector(`.option-btn[data-value="${value}"]`).classList.add('selected');
-  setTimeout(() => nextStep(6), 300);
+  setTimeout(() => nextStep(5), 300);
 }
 
 //Function to update the loading steps as they are completed (reusable)
@@ -631,6 +657,14 @@ async function updateContact(email, firstName, lastName, projectDetails) {
   }
 }
 
+/*
+
+/////////////////////////////////////
+CALCULATOR FUNCTIONS
+/////////////////////////////////////
+
+*/
+
 function getPricePerSqFt(area) {
 
   const minArea = 100;
@@ -706,7 +740,7 @@ function getProjectDetails() {
   const irrigationValue = document.getElementById("irrigationType").value;
   const slopeValue = document.getElementById("slopeType").value;
   const trashCanPadValue = document.getElementById("trashCanPadType").value;
-  const clearance = document.getElementById("clearanceType").value;
+  const clearance = 'Yes'
   const distance = document.getElementById("distanceType").value;
   let area = length * width;
 
