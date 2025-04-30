@@ -48,9 +48,9 @@ body {
 }
 
 .header img {
-  min-width: 150px; /* Adjust size as needed */
-  max-width: 25vh; /* Adjust size as needed */
-  height: auto; /* Keeps the aspect ratio */
+  min-height: 7vh; /* Adjust size as needed */
+  max-height: 5vh; /* Adjust size as needed */
+  width: auto; /* Keeps the aspect ratio */
   display: block; /* Ensures no extra space around the image */
   margin: 10px auto; /* Centers the image */
 }
@@ -60,13 +60,13 @@ body {
 .progress-wrapper {
   position:fixed;
   display: flex;
-  top: max(13vh, 80px); /* Ensures it's below the header */
+  top: max(12vh, 80px);
   align-items: center;  /* Align text and progress bar */
-  gap: 20px;  /* Space between text and progress bar */
+  gap: 30px;  /* Space between text and progress bar */
   width: 80%;
   max-width: 900px;
   margin: 0 auto; /* Centers the progress tracker */
-  padding: 4px 0;
+  padding: 10px 0;
 }
 
 /* Text Area Next to Progress Bar */
@@ -128,7 +128,7 @@ p {
 }
 
 .quote-wrapper {
-  margin-top: max(20vh, 110px); /* Ensures space below the header */
+  margin-top: max(18vh, 110px); /* Ensures space below the header */
   display: flex;
   justify-content: center; /* Ensures perfect centering */
   align-items: center;
