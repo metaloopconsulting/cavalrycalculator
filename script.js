@@ -601,13 +601,13 @@ async function checkEmail(email) {
 }
 
 //Backend function to create a new opportunity for unpaid quote
-async function createOpportunity(email, projectDetails) {
+async function createOpportunity(email, projectDetails, phoneNumber) {
   const response = await fetch(`${backendURL}ghl/opportunities/createUnpaid`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({ email: email.toLowerCase(), projectDetails: projectDetails })
+    body: JSON.stringify({ email: email.toLowerCase(), projectDetails: projectDetails, phoneNumber: phoneNumber })
   })
   const data = await response.json();
 
@@ -620,13 +620,13 @@ async function createOpportunity(email, projectDetails) {
 }
 
 //Backend function to create a new customer
-async function createCustomer(email, firstName, lastName, projectDetails) {
+async function createCustomer(email, firstName, lastName, projectDetails, phoneNumber) {
   const response = await fetch(`${backendURL}ghl/contacts/createNew`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({ email: email.toLowerCase(), firstName: firstName, lastName: lastName, projectDetails: projectDetails })
+    body: JSON.stringify({ email: email.toLowerCase(), firstName: firstName, lastName: lastName, projectDetails: projectDetails, phoneNumber: phoneNumber})
   })
   const data = await response.json();
 
@@ -639,13 +639,13 @@ async function createCustomer(email, firstName, lastName, projectDetails) {
 }
 
 //Backend function to update contact
-async function updateContact(email, firstName, lastName, projectDetails) {
+async function updateContact(email, firstName, lastName, projectDetails, phoneNumber) {
   const response = await fetch(`${backendURL}ghl/contacts/updateContact`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({ email: email.toLowerCase(), firstName: firstName, lastName: lastName, projectDetails: projectDetails })
+    body: JSON.stringify({ email: email.toLowerCase(), firstName: firstName, lastName: lastName, projectDetails: projectDetails, phoneNumber: phoneNumber})
   })
   const data = await response.json();
   if (data.contact !== null) {
