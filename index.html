@@ -44,11 +44,12 @@
           <h2>Welcome to our Instant Quote Tool!</h2>
           <p style="padding:10px">We are excited to help you with your concrete project. Please answer a
             few questions to get started.</p>
-          <p style="padding:10px">We collect a <b style="color:darkgreen">$5.00 </b>fee toward the end
-            to generate the quote. This quote is <b>100% accurate</b> and if the job ends up being more expensive than
+          <!--<p style="padding:10px">We collect a <b style="color:darkgreen">$5.00 </b>fee toward the end
+            to generate the quote.-->
+          <p>This quote is <b>100% accurate</b> and if the job ends up being more expensive than
             the quote, we cover the difference!</p>
           <p style="padding:10px">You get a <b style="color:goldenrod">$100.00 off</b> coupon code
-            instantly when you pay to get your quote.</p>
+            instantly when you get your quote.</p>
           <div class="button-container">
             <button type="button" class="next-btn" data-step="0">Get Started</button>
           </div>
@@ -250,7 +251,7 @@
               <input type="text" id="firstName" name="firstName" placeholder="First Name" required>
               <input type="text" id="lastName" name="lastName" placeholder="Last Name" required>
               <input type="email" id="email" name="email" placeholder="Email" required>
-              <input type="text" id="phone" name="phone" placeholder="Phone (Optional for Texts)">
+              <input type="text" id="phone" name="phone" placeholder="Phone" required>
             </div>
 
             <div class="button-container">
@@ -317,6 +318,12 @@
 
 
             </div>
+
+            <div class="success-container" id="success-container" style="display:block">
+              <h2>🎊 Congratulations! 🎉</h2>
+              <p>Your quote is ready. We have sent it to your email along with your <b>$100 off coupon</b>.</p>
+              <p>Thank you for using our Instant Quote Tool!</p>
+              <p>We look forward to working with you on your project. 🤝</p>
 
           </div>
 

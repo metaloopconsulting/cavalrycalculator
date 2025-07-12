@@ -516,7 +516,7 @@ function selectDistanceType(value) {
 }
 
 //Function to update the loading steps as they are completed (reusable)
-function markStepComplete(stepId) {
+async function markStepComplete(stepId) {
   const el = document.getElementById(stepId);
   if (!el) {
     console.warn(`⚠️ No element found with id '${stepId}'`);
@@ -529,12 +529,21 @@ function markStepComplete(stepId) {
   el.innerHTML = '✅';
 
   if (stepId === 'wrappingUpQuote') {
-    const payDiv = document.getElementById('info-container');
-    const loadingHeader = document.getElementById('loading-header');
-    loadingHeader.style.display = 'none'; // Hide the loading header
-    payDiv.style.display = 'block'; // Show the payment button div
-  }
-}
+
+    //Switch between if we need a payment from the customer or not based on the env variable
+    const requiresPayment = await getPaymentRequired();
+
+      if (requiresPayment) {
+        const payDiv = document.getElementById('info-container');
+        const loadingHeader = document.getElementById('loading-header');
+        loadingHeader.style.display = 'none'; // Hide the loading header
+        payDiv.style.display = 'block'; // Show the payment button div
+    } else {
+        // If no payment is required, just show the success message
+        const successDiv = document.getElementById('success-container');
+        successDiv.style.display = 'block';
+    }
+}}
 
 //Backend function to start a checkout session
 async function startCheckoutSession(email) {
@@ -575,6 +584,15 @@ BACKEND FUNCTIONS
 /////////////////////////////////////
 
 */
+
+//Backend function to see if payment is required
+async function getPaymentRequired() {
+  // This function should return true or false based on your environment variable
+  // There is a server side process that sets this variable
+  const response = await fetch(`${backendURL}paymentRequired`);
+  const data = await response.json();
+  return data.paymentRequired;
+}
 
 //Backend function to check for existing email
 async function checkEmail(email) {
@@ -849,5 +867,4 @@ function showQuote() {
     
   }
   */
-
 
