@@ -547,6 +547,8 @@ async function markStepComplete(stepId) {
     } else {
         // If no payment is required, just show the success message
         const successDiv = document.getElementById('success-container');
+        const loadingHeader = document.getElementById('loading-header');
+        loadingHeader.style.display = 'none'; // Hide the loading header
         successDiv.style.display = 'block';
     }
 }}
@@ -595,9 +597,16 @@ BACKEND FUNCTIONS
 async function getPaymentRequired() {
   // This function should return true or false based on your environment variable
   // There is a server side process that sets this variable
-  const response = await fetch(`${backendURL}paymentRequired`);
+  const response = await fetch(`${backendURL}paymentRequired`,  {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+      body: JSON.stringify({})
+
+  });
   const data = await response.json();
-  return data.paymentRequired;
+  return data.requiredPayment;
 }
 
 //Backend function to check for existing email
