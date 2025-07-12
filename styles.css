@@ -249,7 +249,7 @@ select {
 }
 
 
-input[type=email], input[type=text] {
+input[type=email], input[type=text], input[type=tel] {
   width: 80%;
   padding: 10px;
   font-size: var(--p-size);

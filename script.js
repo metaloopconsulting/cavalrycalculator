@@ -49,7 +49,12 @@ document.addEventListener("DOMContentLoaded", function () {
     .then(response => response.text())
     .then(data => console.log(data))
 
-
+  //Phone number input validation
+  const phoneInput = document.getElementById('phone');
+  phoneInput.addEventListener('input', function (e) {
+  var x = e.target.value.replace(/\D/g, '').match(/(\d{0,3})(\d{0,3})(\d{0,4})/);
+  e.target.value = !x[2] ? x[1] : '(' + x[1] + ') ' + x[2] + (x[3] ? '-' + x[3] : '');
+});
 
   //Listeners for the buttons on the project selection
   const projectButtons = document.querySelectorAll('#project-button');
@@ -108,9 +113,10 @@ document.addEventListener("DOMContentLoaded", function () {
     const firstName = document.getElementById('firstName').value;
     const lastName = document.getElementById('lastName').value;
     const email = document.getElementById('email').value;
+    const phoneNumber = document.getElementById('phone').value; // Get phone number
     const projectDetails = getProjectDetails().projectDetails;
 
-    if (firstName && lastName && email) {
+    if (firstName && lastName && email && phoneNumber) {
 
       const existingEmail = await checkEmail(email.toLowerCase());
       markStepComplete('checkingEmail')

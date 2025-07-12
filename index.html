@@ -251,7 +251,7 @@
               <input type="text" id="firstName" name="firstName" placeholder="First Name" required>
               <input type="text" id="lastName" name="lastName" placeholder="Last Name" required>
               <input type="email" id="email" name="email" placeholder="Email" required>
-              <input type="text" id="phone" name="phone" placeholder="Phone" required>
+              <input type="tel" id="phone" name="phone" placeholder="Phone" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" required>
             </div>
 
             <div class="button-container">
@@ -319,7 +319,7 @@
 
             </div>
 
-            <div class="success-container" id="success-container" style="display:block">
+            <div class="success-container" id="success-container" style="display:none">
               <h2>🎊 Congratulations! 🎉</h2>
               <p>Your quote is ready. We have sent it to your email along with your <b>$100 off coupon</b>.</p>
               <p>Thank you for using our Instant Quote Tool!</p>
