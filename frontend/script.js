@@ -6,10 +6,39 @@
 
 */
 
+//Require the configuration file
+async function loadConfig() {
+  try {
+    const clientConfigFetch = await fetch('/config/clientConfig.json');
+    if (!clientConfigFetch.ok) {
+      throw new Error(`HTTP error! status: ${clientConfigFetch.status}`);
+    }
+    const clientConfigJson = await clientConfigFetch.json();
+    config = clientConfigJson[0]; // Assuming the config is an array with one object
+    console.log("🟢 Client configuration file loaded successfully")
+  } catch (error) {
+    console.error("❌ Error loading client configuration file:", error)
+    alert("There was an error loading the client configuration file. Please try again later.")
+    }
+  };
+
+  //Load the client configuration
+loadConfig().then(() => {
+  // Set the client ID from the loaded configuration
+  if (config && config.appConfig) {
+    clientId = config.appConfig.id;
+
+    console.log(`🟢 Client ID set to: ${clientId}`);
+  } else {
+    console.error("❌ Client ID not found in configuration");
+    alert("There was an error loading the client configuration. Please try again later.")
+  }
+});
+
 let currentStep = 0; // Track the current step
-let finalStep = 8; // The final step
-let backendURL = `https://cavalrycalculator-backend-production.up.railway.app/`;
-let backendPort = `8080`;
+let finalStep = config.appConfig.totalSteps; // The final step
+let backendURL = config.appConfig.backendUrl;
+let backendPort = config.appConfig.backendPort;
 
 /*
 
@@ -19,10 +48,10 @@ let backendPort = `8080`;
 
 */
 
-let calculatorMargin = 0.3; // Margin for the calculator
-let sqFtLimitLowest = 150;
-let sqFtLimitHighest = 300;
-let companyName = "Cavalry Concrete";
+let calculatorMargin = config.appConfig.calculatorMargin;
+let sqFtLimitLowest = config.appConfig.sqFtLimitLowest;
+let sqFtLimitHighest = config.appConfig.sqFtLimitHighest;
+let companyName = config.companyInfo.name;
 
 
 
@@ -238,11 +267,11 @@ function calculateSlopePrice(slopeType, squareFootage, projectType) {
     if (slopeType === "none") {
       return 0;
     } else if (slopeType === "slight") {
-      return 50;
+      return config.appConfig.pricing.slope_trashCan_slight;
     } else if (slopeType === "moderate") {
-      return 100;
+      return config.appConfig.pricing.slope_trashCan_moderate;
     } else if (slopeType === "high") {
-      return 150;
+      return config.appConfig.pricing.slope_trashCan_high;
     }
 
 
@@ -253,33 +282,33 @@ function calculateSlopePrice(slopeType, squareFootage, projectType) {
     }
     else if (slopeType === "slight") {
       if (squareFootage <= sqFtLimitLowest) {
-        return 100;
+        return config.appConfig.pricing.slope_other_slight - 50;
       } else if
         (squareFootage > sqFtLimitLowest && squareFootage <= sqFtLimitHighest) {
-        return 200;
+        return config.appConfig.pricing.slope_other_slight;
       }
       else {
-        return 300;
+        return config.appConfig.pricing.slope_other_slight + 50;
       }
     } else if (slopeType === "moderate") {
       if (squareFootage <= sqFtLimitLowest) {
-        return 150;
+        return config.appConfig.pricing.slope_other_moderate - 50;
       }
       else if (squareFootage > sqFtLimitLowest && squareFootage <= sqFtLimitHighest) {
-        return 250;
+        return config.appConfig.pricing.slope_other_moderate;
       }
       else {
-        return 350;
+        return config.appConfig.pricing.slope_other_moderate + 50;
       }
     } else if (slopeType === "high") {
       if (squareFootage <= sqFtLimitLowest) {
-        return 200;
+        return config.appConfig.pricing.slope_other_high - 50;
       }
       else if (squareFootage > sqFtLimitLowest && squareFootage <= sqFtLimitHighest) {
-        return 300;
+        return config.appConfig.pricing.slope_other_high;
       }
       else {
-        return 400;
+        return config.appConfig.pricing.slope_other_high + 50;
       }
     }
   }
@@ -294,17 +323,17 @@ function calculateIrrigationPrice(irrigationType, projectType) {
     if (irrigationType === "none") {
       return 0;
     } else if (irrigationType === "capped") {
-      return 50;
+      return config.appConfig.pricing.irrigation_trashCan_capped_basePrice;
     } else if (irrigationType === "rerouted") {
-      return 100;
+      return config.appConfig.pricing.irrigation_trashCan_rerouted_basePrice;
     }
   } else if (projectType === "walkway" || projectType === "patio" || projectType === "driveway") {
     if (irrigationType === "none") {
       return 0;
     } else if (irrigationType === "capped") {
-      return 100;
+      return config.appConfig.pricing.irrigation_other_capped_basePrice;
     } else if (irrigationType === "rerouted") {
-      return 250;
+      return config.appConfig.pricing.irrigation_other_rerouted_basePrice;
     }
   }
 }
@@ -321,25 +350,25 @@ function updateMinMaxValues() {
 
 
   if (projectType === 'walkway') {
-    lengthSlider.min = 10;
-    lengthSlider.max = 50;
-    widthSlider.min = 4;
-    widthSlider.max = 6;
+    lengthSlider.min = config.appConfig.sliderLimits.walkway_length_min;
+    lengthSlider.max = config.appConfig.sliderLimits.walkway_length_max;
+    widthSlider.min = config.appConfig.sliderLimits.walkway_width_min;
+    widthSlider.max = config.appConfig.sliderLimits.walkway_width_max;
   } else if (projectType === 'patio') {
-    lengthSlider.min = 5;
-    lengthSlider.max = 20;
-    widthSlider.min = 5;
-    widthSlider.max = 20;
+    lengthSlider.min = config.appConfig.sliderLimits.patio_length_min;
+    lengthSlider.max = config.appConfig.sliderLimits.patio_length_max;
+    widthSlider.min = config.appConfig.sliderLimits.patio_width_min;
+    widthSlider.max = config.appConfig.sliderLimits.patio_width_max;
   } else if (projectType === 'trash_can_pad') {
-    lengthSlider.min = 3;
-    lengthSlider.max = 10;
-    widthSlider.min = 3;
-    widthSlider.max = 10;
+    lengthSlider.min = config.appConfig.sliderLimits.trashCanPad_length_min;
+    lengthSlider.max = config.appConfig.sliderLimits.trashCanPad_length_max;
+    widthSlider.min = config.appConfig.sliderLimits.trashCanPad_width_min;
+    widthSlider.max = config.appConfig.sliderLimits.trashCanPad_width_max;
   } else if (projectType === 'driveway') {
-    lengthSlider.min = 18;
-    lengthSlider.max = 30;
-    widthSlider.min = 10;
-    widthSlider.max = 25;
+    lengthSlider.min = config.appConfig.sliderLimits.driveway_length_min;
+    lengthSlider.max = config.appConfig.sliderLimits.driveway_length_max;
+    widthSlider.min = config.appConfig.sliderLimits.driveway_width_min;
+    widthSlider.max = config.appConfig.sliderLimits.driveway_width_max;
   }
 
   // Reset slider values and displays
@@ -559,7 +588,8 @@ async function startCheckoutSession(email) {
   const response = await fetch(`${backendURL}stripe/create-checkout-session`, {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'x-client-id': clientId
     },
     body: JSON.stringify({ email: email.toLowerCase() })
   });
@@ -600,7 +630,8 @@ async function getPaymentRequired() {
   const response = await fetch(`${backendURL}paymentRequired`,  {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'x-client-id': clientId
     },
       body: JSON.stringify({})
 
@@ -615,7 +646,8 @@ async function checkEmail(email) {
   const response = await fetch(`${backendURL}ghl/contacts/check`, {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'x-client-id': clientId
     },
     body: JSON.stringify({ email: email })
   })
@@ -638,7 +670,8 @@ async function createOpportunity(email, projectDetails, phoneNumber) {
   const response = await fetch(`${backendURL}ghl/opportunities/createUnpaid`, {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'x-client-id': clientId
     },
     body: JSON.stringify({ email: email.toLowerCase(), projectDetails: projectDetails, phoneNumber: phoneNumber })
   })
@@ -657,7 +690,8 @@ async function createCustomer(email, firstName, lastName, projectDetails, phoneN
   const response = await fetch(`${backendURL}ghl/contacts/createNew`, {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'x-client-id': clientId
     },
     body: JSON.stringify({ email: email.toLowerCase(), firstName: firstName, lastName: lastName, projectDetails: projectDetails, phoneNumber: phoneNumber})
   })
@@ -676,7 +710,8 @@ async function updateContact(email, firstName, lastName, projectDetails, phoneNu
   const response = await fetch(`${backendURL}ghl/contacts/updateContact`, {
     method: 'PUT',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'x-client-id': clientId
     },
     body: JSON.stringify({ email: email.toLowerCase(), firstName: firstName, lastName: lastName, projectDetails: projectDetails, phoneNumber: phoneNumber})
   })
@@ -700,10 +735,10 @@ CALCULATOR FUNCTIONS
 
 function getPricePerSqFt(area) {
 
-  const minArea = 100;
-  const maxArea = 400;
-  const maxPrice = 22;
-  const minPrice = 8.8;
+  const minArea = config.appConfig.pricing.minimumArea;
+  const maxArea = config.appConfig.pricing.maximumArea;
+  const maxPrice = config.appConfig.pricing.maxPricePerSqFt;
+  const minPrice = config.appConfig.pricing.minPricePerSqFt;
 
   if (area <= minArea) return maxPrice;
   if (area >= maxArea) return minPrice;
@@ -723,11 +758,11 @@ function calculateQuote(projectType, area, irrigationPrice, slopePrice, pumpTruc
   //Calculate price based on project type
   if (projectType === "trash_can_pad") {
 
-    trasnCanPadType = document.getElementById("trashCanPadType").value;
-    if (trasnCanPadType === "2") {
-      baseCost = 700;
-    } else if (trasnCanPadType === "3") {
-      baseCost = 750;
+    trashCanPadType = document.getElementById("trashCanPadType").value;
+    if (trashCanPadType === "2") {
+      baseCost = config.appConfig.pricing.trashCanPad_2_basePrice;
+    } else if (trashCanPadType === "3") {
+      baseCost = config.appConfig.pricing.trashCanPad_3_basePrice;
     }
 
     customerCost = baseCost + irrigationPrice + slopePrice;
@@ -753,8 +788,8 @@ function calculateQuote(projectType, area, irrigationPrice, slopePrice, pumpTruc
     if (projectType === "trash_can_pad") {
       customerCost = customerCost
     }
-    else if (customerCost < 2600) {
-      customerCost = 2600;
+    else if (customerCost < config.appConfig.pricing.lowestPriceThreshold) {
+      customerCost = config.appConfig.pricing.lowestPriceThreshold;
     }
 
     return customerCost;
@@ -787,7 +822,7 @@ function getProjectDetails() {
   // Calculate pump truck cost
   let pumpTruckCost = 0;
   if (distance === "Far") {
-    pumpTruckCost = 1000;
+    pumpTruckCost = config.appConfig.pricing.pumptruck_basePrice;
   }
 
   //Project type description
@@ -809,13 +844,13 @@ function getProjectDetails() {
   //Trash can pad type area override
   if (projectType === "trash_can_pad") {
     if (trashCanPadValue === "2") {
-      area = 4 * 4;
-      length = 4;
-      width = 4;
+      area = config.appConfig.pricing.trashCanPad_2_length * config.appConfig.pricing.trashCanPad_2_width;
+      length = config.appConfig.pricing.trashCanPad_2_length;
+      width = config.appConfig.pricing.trashCanPad_2_width;
     } else if (trashCanPadValue === "3") {
-      area = 6 * 6;
-      length = 6;
-      width = 6;
+      area = config.appConfig.pricing.trashCanPad_3_length * config.appConfig.pricing.trashCanPad_3_width;
+      length = config.appConfig.pricing.trashCanPad_3_length;
+      width = config.appConfig.pricing.trashCanPad_3_width;
     }
   }
 

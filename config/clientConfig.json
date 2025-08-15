@@ -1,0 +1,68 @@
+[
+    {
+        "companyInfo":
+         {
+            "name": "Cavalry Concrete",
+            "logo": "https://www.cavalry-concrete.com/logo.png",
+            "email": "joe@cavalry-concrete.com",
+            "phoneNumber": "+1 (555) 123-4567",
+            "website": "https://www.cavalry-concrete.com"
+        },
+        "appInfo": {
+            "name": "Cavalry Calculator",
+            "version": "1.0.0",
+            "description": "A calculator for concrete estimations"
+        },
+        "appConfig": {
+            "id": "CAVCON",
+            "totalSteps": 8,
+            "backendUrl": "https://cavalrycalculator-backend-production.up.railway.app/",
+            "backendPort": 8080,
+            "calculatorMargin": 0.3,
+            "sqFtLimitLowest": 150,
+            "sqFtLimitHighest": 300,
+            "sliderLimits": {
+                "walkway_length_min": 10,
+                "walkway_length_max": 50,
+                "walkway_width_min": 4,
+                "walkway_width_max": 6,
+                "patio_length_min": 5,
+                "patio_length_max": 20,
+                "patio_width_min": 5,
+                "patio_width_max": 20,
+                "trashCanPad_length_min": 3,
+                "trashCanPad_length_max": 10,
+                "trashCanPad_width_min": 3,
+                "trashCanPad_width_max": 10,
+                "driveway_length_min": 18,
+                "driveway_length_max": 30,
+                "driveway_width_min": 10,
+                "driveway_width_max": 25
+            },
+            "pricing": {
+                "lowestPriceThreshold": 2600,
+                "minimumArea": 100,
+                "maximumArea": 400,
+                "maxPricePerSqFt": 22,
+                "minPricePerSqFt": 8.8,
+                "trashCanPad_2_basePrice": 700,
+                "trashCanPad_3_basePrice": 750,
+                "trashCanPad_2_length": 4,
+                "trashCanPad_2_width": 4,
+                "trashCanPad_3_length": 6,
+                "trashCanPad_3_width": 6,
+                "pumptruck_basePrice": 1000,
+                "irrigation_other_capped_basePrice": 50,
+                "irrigation_other_rerouted_basePrice": 100,
+                "irrigation_trashCan_capped_basePrice": 100,
+                "irrigation_trashCan_rerouted_basePrice": 250,
+                "slope_trashCan_slight": 50,
+                "slope_trashCan_moderate": 100,
+                "slope_trashCan_high": 150,
+                "slope_other_slight": 200, 
+                "slope_other_moderate": 250,
+                "slope_other_high": 300
+            }
+        }
+    }
+]
