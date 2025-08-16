@@ -23,7 +23,7 @@ async function loadConfig() {
   };
 
   //Load the client configuration
-loadConfig().then(() => {
+loadConfig().then(async () => {
   // Set the client ID from the loaded configuration
   if (config && config.appConfig) {
     clientId = config.appConfig.id;
@@ -43,18 +43,20 @@ loadConfig().then(() => {
       el.textContent = companyName;
     });
     
+    // Update steps display now that config is loaded
+    updateSteps();
+    updateProgressBar();
+    
     // Test backend connectivity after config is loaded
-    fetch(backendURL)
-      .then(response => response.text())
-      .then(data => console.log('🟢 Backend ping successful:', data))
-      .catch(error => console.error('❌ Backend ping failed:', error));
+    const backendPing = await healthCheck();
+
   } else {
     console.error("❌ Client ID not found in configuration");
     alert("There was an error loading the client configuration. Please try again later.")
   }
 });
 
-let currentStep = 0; // Track the current step
+let currentStep = 1; // Track the current step
 let finalStep; // Will be set after config loads
 let backendURL; // Will be set after config loads
 let backendPort; // Will be set after config loads
@@ -214,10 +216,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   */
 
-  //Update steps tracker
-  updateSteps();
-
-  updateProgressBar();
+  // Steps will be updated after config loads
 
   //Listener for the slider fill
   const sliders = document.querySelectorAll('input[type="range"]');
@@ -633,6 +632,23 @@ BACKEND FUNCTIONS
 /////////////////////////////////////
 
 */
+
+//Backend health check
+async function healthCheck() {
+  const response = await fetch(`${backendURL}health`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-client-id': clientId
+    }
+  });
+  if (response.ok) {
+    const data = await response.json();
+    console.log("🟢 Backend health check successful:", data.status + ' | Backend ID: ' + data.clientId);
+  } else {
+    console.error("❌ Backend health check failed:", response.status, response.statusText);
+  }
+}
 
 //Backend function to see if payment is required
 async function getPaymentRequired() {
