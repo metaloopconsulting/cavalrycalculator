@@ -27,8 +27,27 @@ loadConfig().then(() => {
   // Set the client ID from the loaded configuration
   if (config && config.appConfig) {
     clientId = config.appConfig.id;
+    finalStep = config.appConfig.totalSteps;
+    backendURL = config.appConfig.backendUrl;
+    backendPort = config.appConfig.backendPort;
+    calculatorMargin = config.appConfig.calculatorMargin;
+    sqFtLimitLowest = config.appConfig.sqFtLimitLowest;
+    sqFtLimitHighest = config.appConfig.sqFtLimitHighest;
+    companyName = config.companyInfo.name;
 
     console.log(`🟢 Client ID set to: ${clientId}`);
+    console.log(`🟢 Backend URL set to: ${backendURL}`);
+    
+    // Set company name in DOM elements after config is loaded
+    document.querySelectorAll(".companyName").forEach(el => {
+      el.textContent = companyName;
+    });
+    
+    // Test backend connectivity after config is loaded
+    fetch(backendURL)
+      .then(response => response.text())
+      .then(data => console.log('🟢 Backend ping successful:', data))
+      .catch(error => console.error('❌ Backend ping failed:', error));
   } else {
     console.error("❌ Client ID not found in configuration");
     alert("There was an error loading the client configuration. Please try again later.")
@@ -36,9 +55,9 @@ loadConfig().then(() => {
 });
 
 let currentStep = 0; // Track the current step
-let finalStep = config.appConfig.totalSteps; // The final step
-let backendURL = config.appConfig.backendUrl;
-let backendPort = config.appConfig.backendPort;
+let finalStep; // Will be set after config loads
+let backendURL; // Will be set after config loads
+let backendPort; // Will be set after config loads
 
 /*
 
@@ -48,10 +67,10 @@ let backendPort = config.appConfig.backendPort;
 
 */
 
-let calculatorMargin = config.appConfig.calculatorMargin;
-let sqFtLimitLowest = config.appConfig.sqFtLimitLowest;
-let sqFtLimitHighest = config.appConfig.sqFtLimitHighest;
-let companyName = config.companyInfo.name;
+let calculatorMargin; // Will be set after config loads
+let sqFtLimitLowest; // Will be set after config loads
+let sqFtLimitHighest; // Will be set after config loads
+let companyName; // Will be set after config loads
 
 
 
@@ -65,18 +84,10 @@ let companyName = config.companyInfo.name;
 */
 
 
-//Set company name variable
-document.querySelectorAll(".companyName").forEach(el => {
-  el.textContent = companyName;
-});
+// Company name will be set after config loads
 
 
 document.addEventListener("DOMContentLoaded", function () {
-
-  //ping backend
-  fetch(backendURL)
-    .then(response => response.text())
-    .then(data => console.log(data))
 
   //Phone number input validation
   const phoneInput = document.getElementById('phone');
