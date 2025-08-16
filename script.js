@@ -9,7 +9,7 @@
 //Require the configuration file
 async function loadConfig() {
   try {
-    const clientConfigFetch = await fetch('/buildFolder/config/clientConfig.json');
+    const clientConfigFetch = await fetch('/clientConfig.json');
     if (!clientConfigFetch.ok) {
       throw new Error(`HTTP error! status: ${clientConfigFetch.status}`);
     }
