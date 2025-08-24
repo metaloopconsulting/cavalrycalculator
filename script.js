@@ -164,19 +164,19 @@ document.addEventListener("DOMContentLoaded", function () {
       markStepComplete('checkingEmail')
 
       if (existingEmail === false) {
-        await createCustomer(email, firstName, lastName, projectDetails);
+        await createCustomer(email, firstName, lastName, projectDetails, phoneNumber);
         markStepComplete('creatingProfile')
 
 
-        await createOpportunity(email.toLowerCase(), projectDetails);
+        await createOpportunity(email.toLowerCase(), projectDetails, phoneNumber);
         markStepComplete('wrappingUpQuote')
       }
       else {
 
-        await updateContact(email.toLowerCase(), firstName, lastName, projectDetails);
+        await updateContact(email.toLowerCase(), firstName, lastName, projectDetails, phoneNumber);
         markStepComplete('creatingProfile')
 
-        await createOpportunity(email.toLowerCase(), projectDetails);
+        await createOpportunity(email.toLowerCase(), projectDetails, phoneNumber);
         markStepComplete('wrappingUpQuote')
       }
 
